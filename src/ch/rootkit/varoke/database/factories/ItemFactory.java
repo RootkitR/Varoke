@@ -11,8 +11,10 @@ import ch.rootkit.varoke.habbohotel.rooms.items.RoomItem;
 import ch.rootkit.varoke.habbohotel.users.inventory.InventoryItem;
 
 public class ItemFactory {
+	
 	public ItemFactory(){
 	}
+	
 	public HashMap<Integer, Item> readItems() throws Exception{
 		HashMap<Integer, Item> result = new HashMap<Integer, Item>();
 		Connection cn = Varoke.getDatabase().getConnection();
@@ -47,6 +49,7 @@ public class ItemFactory {
 		Varoke.getFactory().dispose(cn, ps, rs);
 		return result;
 	}
+	
 	public RoomItem addFloorItem(int roomId, int x, int y, int rot, double height, InventoryItem item) throws Exception{
 		Connection cn = Varoke.getDatabase().getConnection();
 		PreparedStatement ps = cn.prepareStatement("UPDATE items SET roomId=?, x=?, y=?, z=?, rotation=?, limitedId=?, groupId=?, isBuildersFurni=? WHERE id=?");;
@@ -64,6 +67,7 @@ public class ItemFactory {
 		Varoke.getFactory().dispose(cn, ps, null);
 		return result;
 	}
+	
 	public RoomItem addWallItem(int roomId, String wallPosition, InventoryItem item) throws Exception {
 		Connection cn = Varoke.getDatabase().getConnection();
 		PreparedStatement ps = cn.prepareStatement("UPDATE items SET roomId=?, wallPosition=? WHERE id=?");
@@ -75,6 +79,7 @@ public class ItemFactory {
 		Varoke.getFactory().dispose(cn, ps, null);
 		return result;
 	}
+	
 	public void saveItemState(RoomItem item) throws Exception{
 		Connection cn = Varoke.getDatabase().getConnection();
 		PreparedStatement ps = cn.prepareStatement("UPDATE items SET x=?, y=?, z=?, rotation=?, extraData=?, baseItem=?, wallPosition=? WHERE id=?");
@@ -89,9 +94,18 @@ public class ItemFactory {
 		ps.execute();
 		Varoke.getFactory().dispose(cn, ps, null);
 	}
+	
 	public void pickItem(int id) throws Exception{
 		Connection cn = Varoke.getDatabase().getConnection();
 		PreparedStatement ps = cn.prepareStatement("UPDATE items SET roomId=0 WHERE id=?");
+		ps.setInt(1, id);
+		ps.execute();
+		Varoke.getFactory().dispose(cn, ps, null);
+	}
+	
+	public void remove(int id) throws Exception{
+		Connection cn = Varoke.getDatabase().getConnection();
+		PreparedStatement ps = cn.prepareStatement("DELETE FROM items WHERE id=?");
 		ps.setInt(1, id);
 		ps.execute();
 		Varoke.getFactory().dispose(cn, ps, null);

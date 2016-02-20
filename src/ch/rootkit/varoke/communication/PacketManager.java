@@ -58,6 +58,7 @@ import ch.rootkit.varoke.communication.events.rooms.SaveRoomThumbnailMessageEven
 import ch.rootkit.varoke.communication.events.rooms.items.FloorItemMoveMessageEvent;
 import ch.rootkit.varoke.communication.events.rooms.items.OpenGiftMessageEvent;
 import ch.rootkit.varoke.communication.events.rooms.items.PickUpItemMessageEvent;
+import ch.rootkit.varoke.communication.events.rooms.items.ReedemExchangeItemMessageEvent;
 import ch.rootkit.varoke.communication.events.rooms.items.RoomAddFloorItemMessageEvent;
 import ch.rootkit.varoke.communication.events.rooms.items.TriggerItemMessageEvent;
 import ch.rootkit.varoke.communication.events.rooms.items.TriggerWallItemMessageEvent;
@@ -145,6 +146,7 @@ public class PacketManager {
 		events.put(Incoming.get("TriggerItemMessageEvent"), new TriggerItemMessageEvent());
 		events.put(Incoming.get("WallItemMoveMessageEvent"), new WallItemMoveMessageEvent());
 		events.put(Incoming.get("TriggerWallItemMessageEvent"), new TriggerWallItemMessageEvent());
+		events.put(Incoming.get("ReedemExchangeItemMessageEvent"), new ReedemExchangeItemMessageEvent());
 	}
 	public void bindMessenger(){
 		events.put(Incoming.get("InitMessengerMessageEvent"), new InitMessengerMessageEvent());
