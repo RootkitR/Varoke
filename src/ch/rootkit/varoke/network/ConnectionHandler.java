@@ -11,23 +11,29 @@ import ch.rootkit.varoke.habbohotel.sessions.Session;
 
 
 public class ConnectionHandler extends ChannelInboundHandlerAdapter{
+	
 	private Channel channel;
+	
 	@Override
 	public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
 		Varoke.getSessionManager().addConnection(ctx.channel());
 		channel = ctx.channel();
 	}
+	
 	@Override
 	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {	
 		Varoke.getSessionManager().removeSession(ctx.channel());
 	}
+	
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable e) throws Exception {
 		e.getCause().printStackTrace();
 	}
+	
 	public Session getConnection(){
 		return Varoke.getSessionManager().getSessionByChannel(channel);
 	}
+	
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object obj) throws Exception {
 		ByteBuf buffer = (ByteBuf)obj;
@@ -36,6 +42,7 @@ public class ConnectionHandler extends ChannelInboundHandlerAdapter{
 				readMessage(ctx, buffer.readBytes(length));
 			}
 	}
+	
 	public void readMessage(ChannelHandlerContext ctx, ByteBuf buffer) throws Exception {
 		short Header = buffer.readShort();
 		if(Varoke.getGame().getPacketManager().hasEvent(Header)){
@@ -49,6 +56,7 @@ public class ConnectionHandler extends ChannelInboundHandlerAdapter{
 			Logger.printIncomingLine(Header, false, getCharFilter(buffer), "NULL");
 		}
 	}
+	
 	public String getCharFilter(ByteBuf buffer) {
 		String data = new String(buffer.array());
 		String output = "";

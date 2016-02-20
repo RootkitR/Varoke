@@ -12,7 +12,7 @@ public class UserWalkMessageEvent implements MessageEvent {
 	public void handle(Session session, ClientMessage event) throws Exception {
 		RoomUser roomUser = session.getHabbo().getCurrentRoom().getRoomUserById(session.getHabbo().getId());
 		if(roomUser == null) return;
-		roomUser.unidle();
+		roomUser.setIdle(false);
 		roomUser.setGoal(new Point(event.readInt(), event.readInt()));
 		roomUser.setPathFinderCollection();
 	}

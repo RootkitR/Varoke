@@ -10,7 +10,9 @@ import java.util.List;
 
 
 public class RSAConfig {
+	
 	public static HashMap<String, String> rsa;
+	
 	public static void init(String release){
 	    try {
 	    	rsa = new HashMap<String, String>();
@@ -25,6 +27,7 @@ public class RSAConfig {
 	      System.out.println(e);
 	    }
 	}
+	
 	public static String get(String s){
 		if(rsa.containsKey(s))
 			return rsa.get(s);

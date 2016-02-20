@@ -11,6 +11,7 @@ import java.util.List;
 import ch.rootkit.varoke.Varoke;
 public class MessageDecoder
 extends ByteToMessageDecoder {
+	
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
     	in = Varoke.getSessionManager().getSessionByChannel(ctx.channel()).getRC4() == null ? in : Varoke.getSessionManager().getSessionByChannel(ctx.channel()).getRC4().decipher(in);

@@ -16,6 +16,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 public class ConnectionListener {
 
 	private static ServerBootstrap bootstrap;
+	
 	public static void startBootstrap() throws Exception {
 		EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup(10);
@@ -38,6 +39,7 @@ public class ConnectionListener {
         bootstrap.bind(Configuration.get("tcp.ip"), Integer.parseInt(Configuration.get("tcp.port")));
         Logger.printVarokeLine("Listening for Connections on " + Configuration.get("tcp.ip") + ":" +  Configuration.get("tcp.port"));
 	}
+	
 	public static void stopBootstrap() {
 		bootstrap.group().shutdownGracefully();
 	}

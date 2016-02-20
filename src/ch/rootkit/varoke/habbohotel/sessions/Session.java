@@ -18,35 +18,44 @@ public class Session {
 	private RC4 rc4;
 	private Habbo habbo;
 	private boolean passedHandshake;
+	
 	public Session(int id, Channel c) {
 		Id = id;
 		channel = c;
 		diffieHellman = new DiffieHellman();
 	}
+	
 	public void setHabbo(Habbo h){
 		this.habbo = h;
 	}
+	
 	public int getId(){
 		return this.Id;
 	}
+	
 	public Channel getChannel(){
 		return this.channel;
 	}
 	public DiffieHellman getDiffieHellman(){
 		return this.diffieHellman;
 	}
+	
 	public boolean passedHandshake(){
 		return passedHandshake;
 	}
+	
 	public void setPassedHandshake(boolean b){
 		passedHandshake = b;
 	}
+	
 	public void sendMessage(ServerMessage message)throws Exception{
 			message.send(channel);
 	}
+	
 	public void sendComposer(MessageComposer composer){
 		sendComposer(composer, true);
 	}
+	
 	public void sendComposer(MessageComposer composer, boolean dispose){
 		try{
 			sendMessage(composer.compose());
@@ -56,18 +65,23 @@ public class Session {
 			e.printStackTrace();
 		}
 	}
+	
 	public void enableRC4(){
 		rc4 = new RC4(getDiffieHellman().getSharedKey().toByteArray());
 	}
+	
 	public RC4 getRC4(){
 		return rc4;
 	}
+	
 	public Habbo getHabbo(){
 		return habbo;
 	}
+	
 	public void close(){
 		channel.close();
 	}
+	
 	public void sendNotif(String text, String image){
 		HashMap<String, String> values = new HashMap<String,String>();
 		values.put("title","Notification");
@@ -77,6 +91,7 @@ public class Session {
         sendComposer(new SuperNotificationMessageComposer(image, values));
 		values = null;
 	}
+	
 	public void sendNotif(String text){
 		sendNotif(text, "");
 	}

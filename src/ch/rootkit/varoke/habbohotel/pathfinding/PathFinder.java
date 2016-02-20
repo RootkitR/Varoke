@@ -13,6 +13,7 @@ import ch.rootkit.varoke.habbohotel.rooms.Room;
 import ch.rootkit.varoke.habbohotel.rooms.users.RoomUser;
 
 public class PathFinder {
+	
     private Room room;
     private RoomUser roomUser;
     private Queue<Node> path;

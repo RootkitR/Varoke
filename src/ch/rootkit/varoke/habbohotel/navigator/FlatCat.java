@@ -7,18 +7,33 @@ import ch.rootkit.varoke.communication.messages.ServerMessage;
 import ch.rootkit.varoke.habbohotel.rooms.Room;
 
 public class FlatCat {
+	
 	private int Id;
 	private String Caption;
 	private int MinRank;
+	
 	public FlatCat(int id, String caption, int min_rank){
 		Id = id;
 		Caption = caption;
 		MinRank = min_rank;
 	}
-	public int getId(){ return Id; }
-	public String getCaption(){ return Caption; }
-	public String getEventCatName(){ return "eventcategory__" + getId();}
-	public int getMinRank(){ return MinRank; }
+	
+	public int getId(){
+		return Id; 
+	}
+	
+	public String getCaption(){ 
+		return Caption; 
+	}
+	
+	public String getEventCatName(){ 
+		return "eventcategory__" + getId();
+	}
+	
+	public int getMinRank(){ 
+		return MinRank; 
+	}
+	
 	public void serialize(ServerMessage message, boolean search) throws Exception{
 		message.writeString(getEventCatName());
 		message.writeString(getCaption());

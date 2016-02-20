@@ -18,7 +18,7 @@ public class TalkMessageEvent implements MessageEvent {
 			return;
 		if(session.getHabbo().isMuted())
 			return;
-		session.getHabbo().getCurrentRoom().getRoomUserById(session.getHabbo().getId()).unidle();
+		session.getHabbo().getCurrentRoom().getRoomUserById(session.getHabbo().getId()).setIdle(false);
 		session.getHabbo().getCurrentRoom().sendComposer(new TalkMessageComposer(
 				session.getHabbo().getCurrentRoom().getRoomUserById(session.getHabbo().getId()),
 				shout, message, bubble == 1 ? 0 : bubble, shout ? -1 : event.readInt()));

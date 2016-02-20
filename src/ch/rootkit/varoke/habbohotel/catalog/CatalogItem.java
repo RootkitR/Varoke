@@ -48,27 +48,91 @@ public class CatalogItem {
 		this.OfferActive = offeractive;
 		this.ClubOnly = clubonly;
 	}
-	public int getId(){ return this.Id;}
-	public int getPageId(){ return this.PageId;}
-	public int getItemId(){ return this.ItemId;}
-	public int getCostCredits(){ return this.CostCredits;}
-	public int getCostDiamonds(){ return this.CostDiamonds;}
-	public int getCostLoyalty(){ return this.CostLoyalty;}
-	public int getCostDuckets(){ return this.CostDuckets;}
-	public int getAmount(){ return this.Amount;}
-	public int getAchievement(){ return this.Achievement;}
-	public int getSongId(){ return this.SongId;}
-	public int getLimitedSells(){ return this.LimitedSells;}
-	public int getLimitedStack(){ return this.LimitedStack;}
-	public int getOrderNum(){ return this.OrderNum;}
-	public String getItemNames(){ return this.ItemNames;}
-	public String getSpecialName(){ return this.SpecialName;}
-	public String getExtraData(){ return this.ExtraData;}
-	public String getBadge(){ return this.Badge;}
-	public boolean isOfferActive(){ return this.OfferActive;}
-	public boolean clubOnly(){ return this.ClubOnly;}
-	public boolean isLimited(){ return this.LimitedStack > 0;}
-	public Item getBaseItem(){ return Varoke.getGame().getItemManager().getItem(getItemId());}
+	
+	public int getId(){ 
+		return this.Id;
+	}
+	
+	public int getPageId(){ 
+		return this.PageId;
+	}
+	
+	public int getItemId(){ 
+		return this.ItemId;
+	}
+	
+	public int getCostCredits(){
+		return this.CostCredits;
+	}
+	
+	public int getCostDiamonds(){ 
+		return this.CostDiamonds;
+	}
+	
+	public int getCostLoyalty(){ 
+		return this.CostLoyalty;
+	}
+	
+	public int getCostDuckets(){ 
+		return this.CostDuckets;
+	}
+	
+	public int getAmount(){ 
+		return this.Amount;
+	}
+	
+	public int getAchievement(){ 
+		return this.Achievement;
+	}
+	
+	public int getSongId(){ 
+		return this.SongId;
+	}
+	
+	public int getLimitedSells(){ 
+		return this.LimitedSells;
+	}
+	
+	public int getLimitedStack(){ 
+		return this.LimitedStack;
+	}
+	
+	public int getOrderNum(){ 
+		return this.OrderNum;
+	}
+	
+	public String getItemNames(){ 
+		return this.ItemNames;
+	}
+	
+	public String getSpecialName(){ 
+		return this.SpecialName;
+	}
+	
+	public String getExtraData(){ 
+		return this.ExtraData;
+	}
+	
+	public String getBadge(){ 
+		return this.Badge;
+	}
+	
+	public boolean isOfferActive(){ 
+		return this.OfferActive;
+	}
+	
+	public boolean clubOnly(){ 
+		return this.ClubOnly;
+	}
+	
+	public boolean isLimited(){ 
+		return this.LimitedStack > 0;
+	}
+	
+	public Item getBaseItem(){ 
+		return Varoke.getGame().getItemManager().getItem(getItemId());
+	}
+	
 	public void compose(ServerMessage message) throws Exception
 	{
 		message.writeInt(getId());
@@ -100,6 +164,7 @@ public class CatalogItem {
 		message.writeInt(clubOnly() ? 1 : 0); // 0=normal ; 1=HC but can BUY; 2=Can't buy
 		message.writeBoolean(isOfferActive() && !isLimited() && !getItemNames().startsWith("bot_"));
 	}
+	
 	public void setLimitedSells(int i) {
 		this.LimitedSells = i;
 	}

@@ -24,6 +24,7 @@ public class Room {
 	private RoomCycle cycle;
 	private GameMap gameMap;
 	private RoomItemManager roomItemManager;
+	
 	public Room(RoomData rd) throws Exception{
 		data = rd;
 		users = new HashMap<Integer, RoomUser>();
@@ -32,34 +33,48 @@ public class Room {
 		roomItemManager = Varoke.getFactory().getRoomFactory().createRoomItemManager(this);
 		for(RoomItem roomItem : roomItemManager.getFloorItems())
 			for(Point tile : roomItem.getAffectedTiles())
-				gameMap.setWalkable(tile.getX(), tile.getY(), roomItem.getBaseItem().canWalk());
+				gameMap.setWalkable(tile.getX(), tile.getY(), getItemManager().canWalk(tile.getX(), tile.getY()));
 	}
-	public GameMap getGameMap() { return gameMap; }
+	
+	public GameMap getGameMap() { 
+		return gameMap; 
+	}
+	
 	public static Room fromRoomData(RoomData rd) throws Exception{
 		return new Room(rd);
 	}
-	public int getId(){ return getData().getId();}
+	
+	public int getId(){
+		return getData().getId();
+	}
+	
 	public RoomData getData(){
 		return data;
 	}
+	
 	public RoomModel getModel(){
 		return Varoke.getGame().getRoomManager().getModel(data.getModelName());
 	}
+	
 	public int getNextVirtualId(){
 		int i = 90;
 		while(users.containsKey(i))
 			i++;
 		return i;
 	}
+	
 	public List<RoomUser> getRoomUsers(){
 		return new ArrayList<RoomUser>(users.values());
 	}
+	
 	public RoomUser getRoomUser(int virtualId){
 		return users.get(virtualId);
 	}
+	
 	public RoomItemManager getItemManager(){
 		return roomItemManager;
 	}
+	
 	public RoomUser getRoomUserById(int userId){
 		for(RoomUser r : users.values()){
 			if(r != null && r.getClient() != null && r.getClient().getHabbo() != null && r.getClient().getHabbo().getId() == userId){
@@ -67,17 +82,21 @@ public class Room {
 		}
 		return null;
 	}
+	
 	public int users(){
 		return this.users.size();
 	}
+	
 	public int addRoomUser(Session Session){
 		int virtId = getNextVirtualId();
 		this.users.put(virtId, new RoomUser(virtId, Session, this));
 		return virtId;
 	}
+	
 	public void removeRoomUser(RoomUser user){
 		this.users.remove(user.getVirtualId());
 	}
+	
 	public void sendComposer(MessageComposer composer) throws Exception{
 		ServerMessage result = composer.compose();
 		for(RoomUser roomUser : users.values()){
@@ -90,6 +109,7 @@ public class Room {
 		result = null;
 		composer = null;
 	}
+	
 	public void sendMessage(ServerMessage message){
 		for(RoomUser roomUser : users.values()){
 			if(roomUser.getClient() != null && roomUser.getClient().getChannel() != null && roomUser.getClient().getChannel().isActive()){
@@ -99,6 +119,7 @@ public class Room {
 			}
 		}
 	}
+	
 	public void sendEveryOneExceptMe(MessageComposer composer, RoomUser session) throws Exception{
 		ServerMessage result = composer.compose();
 		for(RoomUser roomUser : users.values()){
@@ -111,15 +132,18 @@ public class Room {
 		result = null;
 		composer = null;
 	}
+	
 	public void startCycle(){
 		cycle = new RoomCycle(this);
 		Varoke.getGame().getThreadPool().executeScheduled(cycle, 500);
 	}
+	
 	public void dispose(){
 		cycle.stop();
 		this.users.clear();
 		this.users = null;
 	}
+	
 	public boolean hasRights(Habbo habbo, boolean adminRights){
 		if(habbo.getId() == getData().getOwner())
 			return true;
@@ -129,6 +153,7 @@ public class Room {
 			return true;
 		return false;
 	}
+	
 	public void updatePath() {
 		for(RoomUser roomUser : users.values()){
 			if(roomUser != null && roomUser.getGoal().getX() != -1 && roomUser.getGoal().getX() != -1)

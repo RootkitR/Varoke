@@ -12,9 +12,11 @@ import ch.rootkit.varoke.habbohotel.users.badges.BadgeComponent;
 public class UserBadgesMessageComposer implements MessageComposer {
 
 	final BadgeComponent badgeComponent;
+	
 	public UserBadgesMessageComposer(BadgeComponent b){
 		badgeComponent = b;
 	}
+	
 	@Override
 	public ServerMessage compose() throws Exception {
 		final ServerMessage result = new ServerMessage(Outgoing.get(getClass().getSimpleName()));

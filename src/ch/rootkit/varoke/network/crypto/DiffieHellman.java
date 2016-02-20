@@ -55,6 +55,7 @@ public class DiffieHellman {
     public BigInteger getSharedKey(){
     	return SharedKey;
     }
+    
     public static String generateRandomHexString(int len) {
         int rand = 0;
         String result = "";

@@ -25,7 +25,9 @@ public class RoomCycle implements Runnable{
 		userCycles.add(new SignCycle(room));
 		userCycles.add(new OnWalkCycle(room));
 	}
-	public Room getRoom(){ return room;}
+	public Room getRoom(){ 
+		return room;
+	}
 	@Override
 	public void run() {
 		if(!stopped){

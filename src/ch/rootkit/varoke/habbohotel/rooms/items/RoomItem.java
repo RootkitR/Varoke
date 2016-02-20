@@ -46,35 +46,116 @@ public class RoomItem {
 		giftTimer = 0;
 	}
 
-	public int getId() { return Id; }
-	public int getOwnerId() { return OwnerId; }
-	public int getRoomId() { return RoomId; }
-	public int getBaseItemId() { return BaseItem; }
-	public String getExtraData() { return ExtraData; }
-	public int getX() { return X; }
-	public int getY() { return Y; }
-	public double getZ() { return Z; }
-	public int getRotation() { return Rotation; }
-	public String getWallPosition() { return WallPosition; }
-	public int getLimitedId() { return LimitedId; }
-	public int getGroupId() { return GroupId; }
-	public boolean isBuildersFurni() { return BuildersFurni; }
-	public Room getRoom() { return Varoke.getGame().getRoomManager().getLoadedRoom(getRoomId()); }
-	public Item getBaseItem() { return Varoke.getGame().getItemManager().getItem(getBaseItemId()); }
-	public boolean isFloorItem() { return getBaseItem().getType().toLowerCase().equals("s"); }
-	public double getHeight() { return getBaseItem().getDefaultStackHeight(); }
-	public double getFullHeight() { return getHeight() + getZ(); }
-	public int getGiftTimer() { return giftTimer; }
-	public void setExtraData(String data){ ExtraData = data; }
-	public void setX(int x){ X = x; }
-	public void setY(int y){ Y = y; }
-	public void setZ(double z){ Z = z; }
-	public void setRotation(int rot){ Rotation = rot; }
-	public void setWallPosition(String position){ WallPosition = position; }
-	public void setBaseItem(int id){ BaseItem = id; }
-	public void setGiftTimer(int timer){ giftTimer = timer; }
+	public int getId() { 
+		return Id; 
+	}
+	
+	public int getOwnerId() {
+		return OwnerId; 
+	}
+	
+	public int getRoomId() { 
+		return RoomId; 
+	}
+	
+	public int getBaseItemId() { 
+		return BaseItem; 
+	}
+	
+	public String getExtraData() { 
+		return ExtraData; 
+	}
+	
+	public int getX() { 
+		return X; 
+	}
+	
+	public int getY() {
+		return Y; 
+	}
+	
+	public double getZ() {
+		return Z; 
+	}
+	
+	public int getRotation() { 
+		return Rotation; 
+	}
+	
+	public String getWallPosition() { 
+		return WallPosition; 
+	}
+	
+	public int getLimitedId() { 
+		return LimitedId;
+	}
+	
+	public int getGroupId() { 
+		return GroupId; 
+	}
+	
+	public boolean isBuildersFurni() { 
+		return BuildersFurni; 
+	}
+	
+	public Room getRoom() { 
+		return Varoke.getGame().getRoomManager().getLoadedRoom(getRoomId()); 
+	}
+	
+	public Item getBaseItem() { 
+		return Varoke.getGame().getItemManager().getItem(getBaseItemId()); 
+	}
+	
+	public boolean isFloorItem() { 
+		return getBaseItem().getType().toLowerCase().equals("s"); 
+	}
+	
+	public double getHeight() { 
+		return getBaseItem().getDefaultStackHeight(); 
+	}
+	
+	public double getFullHeight() { 
+		return getHeight() + getZ(); 
+	}
+	
+	public int getGiftTimer() { 
+		return giftTimer; 
+	}
+	
+	public void setExtraData(String data){ 
+		ExtraData = data; 
+	}
+	
+	public void setX(int x){ 
+		X = x; 
+	}
+	
+	public void setY(int y){ 
+		Y = y;
+	}
+	
+	public void setZ(double z){ 
+		Z = z; 
+	}
+	
+	public void setRotation(int rot){ 
+		Rotation = rot; 
+	}
+	
+	public void setWallPosition(String position){ 
+		WallPosition = position; 
+	}
+	
+	public void setBaseItem(int id){ 
+		BaseItem = id; 
+	}
+	
+	public void setGiftTimer(int timer){ 
+		giftTimer = timer; 
+	}
+	
 	public void compose(ServerMessage message) throws Exception {
-		if(isFloorItem()){
+	if(isFloorItem()){
 			message.writeInt(getId());
 			message.writeInt(getBaseItem().getSpriteId());
 			message.writeInt(getX());
@@ -143,6 +224,8 @@ public class RoomItem {
 		}
 	}
 	public void update() throws Exception {
+		getRoom().getGameMap().setWalkable(getX(), getY(), getRoom().getItemManager().canWalk(getX(), getY()));
+		getRoom().updatePath();
 		if(isFloorItem())
 			getRoom().sendComposer(new UpdateRoomItemMessageComposer(this));
 		else
@@ -174,5 +257,9 @@ public class RoomItem {
 
 	public Interactor getInteractor() {
 		return InteractorFactory.getInteractor(this);
+	}
+	
+	public boolean isWalkable(){
+		return getInteractor().isWalkable();
 	}
 }

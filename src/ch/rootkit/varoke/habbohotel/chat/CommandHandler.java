@@ -12,6 +12,7 @@ import ch.rootkit.varoke.habbohotel.rooms.items.RoomItem;
 import ch.rootkit.varoke.habbohotel.sessions.Session;
 
 public class CommandHandler {
+	
 	public static boolean handled(Session Session, String Message) throws Exception{
 		String[] args = Message.split(" ");
 		args[0] = args[0].substring(1);
@@ -120,6 +121,7 @@ public class CommandHandler {
 		}
 		return false;
 	}
+	
 	public static void storeMessage(int fromUser, int toUser, int roomId, String Message, String Type) throws Exception{
 		Varoke.getFactory().getMessengerFactory().store(fromUser, toUser, roomId, Message, Type);
 	}

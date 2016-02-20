@@ -15,8 +15,13 @@ public class Point
         PositionDistance = 1000;
         ReversedPositionDistance = 1000;
     }
-    public int getX(){ return X; }
-    public int getY() { return Y; }
+    
+    public int getX(){ 
+    	return X; 
+    }
+    public int getY() { 
+    	return Y; 
+    }
     public boolean equals(Point point) {	
 		return (this.X == point.getX() && this.Y == point.getY());
 	}

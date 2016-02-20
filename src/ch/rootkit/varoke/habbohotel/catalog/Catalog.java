@@ -20,12 +20,14 @@ public class Catalog {
 	private HashMap<Integer, CatalogItem> catalogItems;
 	private List<Integer> oldWrapping;
 	private List<Integer> newWrapping;
+	
 	public Catalog(){
 		this.catalogPages = new HashMap<Integer, CatalogPage>();
 		this.catalogItems = new HashMap<Integer, CatalogItem>();
 		this.oldWrapping = new ArrayList<Integer>();
 		this.newWrapping = new ArrayList<Integer>();
 	}
+	
 	public void initialize() throws Exception{
 		final long started = new Date().getTime();
 		Logger.printVaroke("Initializing Catalog ");
@@ -43,6 +45,7 @@ public class Catalog {
 		}
 		Logger.printLine("(" +  (new Date().getTime() - started) + " ms)");
 	}
+	
 	public List<CatalogPage> getPagesByRankAndParent(int rank, int parentId)
 	{
 		List<CatalogPage> result = new ArrayList<CatalogPage>();
@@ -53,12 +56,19 @@ public class Catalog {
 		}
 		return result;
 	}
+	
 	public CatalogPage getPage(int id)
 	{
 		return this.catalogPages.get(id);
 	}
-	public List<Integer> getOldWrapping(){ return oldWrapping; }
-	public List<Integer> getNewWrapping(){ return newWrapping; }
+	
+	public List<Integer> getOldWrapping(){ 
+		return oldWrapping; 
+	}
+	public List<Integer> getNewWrapping(){ 
+		return newWrapping;
+	}
+	
 	public void purchase(int pageId, int itemId, String extraData, int amount, Session session) throws PurchaseError, Exception{
 		CatalogPage page = catalogPages.get(pageId);
 		if((!catalogPages.containsKey(pageId)) || page == null || (!page.isEnabled()) || (!page.hasItem(itemId)) || 
@@ -98,6 +108,7 @@ public class Catalog {
 		if(item.getBadge() != "")
 			session.getHabbo().getBadgeComponent().addBadge(item.getBadge());
 	}
+	
 	public void purchaseAsGift(Session session, int pageId, int itemId, String extraData, String giftUser, String giftMessage, int giftSprite, int giftRibbon,int giftColor, boolean showUser) throws GiftError, PurchaseError, Exception{
 		CatalogPage page = catalogPages.get(pageId);
 		if((!catalogPages.containsKey(pageId)) || page == null || (!page.isEnabled()) || (!page.hasItem(itemId)) || page.getMinRank() > session.getHabbo().getRank()) //TODO check for club, vip!!
@@ -129,6 +140,7 @@ public class Catalog {
 			target.sendNotif("Du hast ein Geschenk erhalten!", "notification_gift");
 		}
 	}
+	
 	public void dispose(){
 		for(CatalogPage page : catalogPages.values()){
 			page.getItems().clear();
@@ -136,6 +148,7 @@ public class Catalog {
 		this.catalogPages.clear();
 		this.catalogItems.clear();
 	}
+	
 	public CatalogItem getItemByBaseItem(int baseItemId) {
 		for(CatalogItem item : catalogItems.values()){
 			if(item.getBaseItem().getId() == baseItemId)

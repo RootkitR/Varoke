@@ -5,6 +5,7 @@ import ch.rootkit.varoke.communication.messages.ServerMessage;
 import ch.rootkit.varoke.habbohotel.sessions.Session;
 
 public class Friend {
+	
 	private int Id;
 	private String Username;
 	private String Look;
@@ -12,6 +13,7 @@ public class Friend {
 	private boolean AppearsOffline;
 	private boolean HideInRoom;
 	private int friend;
+	
 	public Friend(int userId, String username, String look, String motto, boolean appearOffline, boolean hideInRoom, int f){
 		Id = userId;
 		Username = username;
@@ -21,16 +23,47 @@ public class Friend {
 		HideInRoom = hideInRoom;
 		friend = f;
 	}
-	public int getId(){ return Id;}
-	public String getUsername(){ return Username;}
-	public String getLook(){ return Look;}
-	public String getMotto(){ return Motto;}
-	public boolean appearOffline(){ return AppearsOffline;}
-	public boolean hideInRoom(){ return HideInRoom;}
-	public boolean isOnline(){ return Varoke.getSessionManager().getSessionByUserId(getId()) != null && !AppearsOffline;}
-	public boolean inRoom(){ return isOnline() ? Varoke.getSessionManager().getSessionByUserId(getId()).getHabbo().getCurrentRoom() != null : false;}
-	public Session getSession(){ return Varoke.getSessionManager().getSessionByUserId(getId());}
-	public Session getFriend(){ return Varoke.getSessionManager().getSessionByUserId(friend);}
+	
+	public int getId(){ 
+		return Id;
+	}
+	
+	public String getUsername(){ 
+		return Username;
+	}
+	
+	public String getLook(){ 
+		return Look;
+	}
+	
+	public String getMotto(){ 
+		return Motto;
+	}
+	
+	public boolean appearOffline(){ 
+		return AppearsOffline;
+	}
+	
+	public boolean hideInRoom(){ 
+		return HideInRoom;
+	}
+	
+	public boolean isOnline(){ 
+		return Varoke.getSessionManager().getSessionByUserId(getId()) != null && !AppearsOffline;
+	}
+	
+	public boolean inRoom(){ 
+		return isOnline() ? Varoke.getSessionManager().getSessionByUserId(getId()).getHabbo().getCurrentRoom() != null : false;
+	}
+	
+	public Session getSession(){ 
+		return Varoke.getSessionManager().getSessionByUserId(getId());
+	}
+	
+	public Session getFriend(){ 
+		return Varoke.getSessionManager().getSessionByUserId(friend);
+	}
+	
 	public void compose(ServerMessage result)throws Exception{
 		result.writeInt(getId());
 		result.writeString(getUsername());

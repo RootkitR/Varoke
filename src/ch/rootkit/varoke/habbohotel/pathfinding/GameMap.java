@@ -10,6 +10,7 @@ import ch.rootkit.varoke.habbohotel.rooms.RoomModel;
 import ch.rootkit.varoke.habbohotel.rooms.RoomTileState;
 
 public class GameMap {
+	
     private final Node[][] nodes;
     private final int width;
     private final int height;
@@ -17,6 +18,7 @@ public class GameMap {
     private List<Node> closedList;
     private boolean done = false;
     private Room room;
+    
     public GameMap(RoomModel model, Room r) {
         this.nodes = new Node[model.getSizeX()][model.getSizeY()];
         this.width = model.getSizeX() - 1;
@@ -27,9 +29,11 @@ public class GameMap {
         		setWalkable(x,y, model.getSquareStates()[x][y] == RoomTileState.OPEN);
         room = r;
     }
+    
     public Room getRoom(){
     	return room;
     }
+    
     private synchronized void initEmptyNodes() {
         for (int i = 0; i <= this.width; ++i) {
             for (int j = 0; j <= this.height; ++j) {
@@ -49,6 +53,7 @@ public class GameMap {
         if(getRoom() != null)
         	getRoom().updatePath();
     }
+    
 	public boolean isWalkable(int x, int y) {
 		if (x > this.nodes.length - 1) {
             return false;

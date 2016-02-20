@@ -24,6 +24,7 @@ public class WalkCycle extends UserCycle{
 			Logger.printErrorLine("Error in Room Cycle Task: User Walking");
 		}
 	}
+	
 	public void onWalk(RoomUser roomUser){
 		if(roomUser.getPathfinder() == null || roomUser.getPathfinder().getPath() == null)
 			return;

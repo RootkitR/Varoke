@@ -2,6 +2,7 @@ package ch.rootkit.varoke.habbohotel.pathfinding;
 
 
 public class Rotation {
+	
 	public static int calculate(int X1, int Y1, int X2, int Y2) {
 		byte Rotation = 0;
 		if (X1 > X2 && Y1 > Y2)
@@ -23,6 +24,7 @@ public class Rotation {
 
 		return Rotation;
 	}
+	
 	public int calculateHeadRot(byte headRot, int X, int Y, int toX, int toY) {
 		if (headRot == 2) {
 			if (X <= toX && Y < toY)

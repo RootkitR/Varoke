@@ -28,6 +28,7 @@ public class RoomUser {
 	private int danceId;
 	private int signTimer;
 	private PathFinder pathFinder;
+	
 	public RoomUser(int virtualId, Session user, Room r){
 		VirtualId = virtualId;
 		session = user;
@@ -40,31 +41,68 @@ public class RoomUser {
 		danceId = 0;
 		pathFinder = new PathFinder(r, this);
 	}
-	public int getVirtualId(){return VirtualId;}
-	public Session getClient(){ return session;}
-	public Room getRoom(){ return room;}
-	public HashMap<String, String> getStatusses(){ return statusses;}
-	public Point getPosition() { return position; }
-	public Point getGoal() { return goal; }
-	public int getRotation(){ return rotation;}
-	public double getZ(){ return z;}
-	public boolean isIdle(){ return isIdle;}
 	
-	public int getCarryItem(){ return carryId;}
-	public int getSignTimer(){ return signTimer;}
+	public int getVirtualId(){
+		return VirtualId;
+	}
+	
+	public Session getClient(){ 
+		return session;
+	}
+	
+	public Room getRoom(){ 
+		return room;
+	}
+	
+	public HashMap<String, String> getStatusses(){ 
+		return statusses;
+	}
+	
+	public Point getPosition() {
+		return position; 
+	}
+	
+	public Point getGoal() { 
+		return goal; 
+	}
+	
+	public int getRotation(){ 
+		return rotation;
+	}
+	
+	public double getZ(){ 
+		return z;
+	}
+	
+	public boolean isIdle(){
+		return isIdle;
+	}
+	
+	public int getCarryItem(){
+		return carryId;
+	}
+	
+	public int getSignTimer(){
+		return signTimer;
+	}
+	
 	public PathFinder getPathfinder(){
 		return this.pathFinder;
 	}
+	
 	public void addStatus(String key, String value){
 		statusses.put(key, value);
 	}
+	
 	public void removeStatus(String key){
 		statusses.remove(key);
 	}
+	
 	public void removeAndUpdateStatus(String key){
 		removeStatus(key);
 		updateStatus();
 	}
+	
 	public void updateStatus(){
 		try {
 			getRoom().sendComposer(new UpdateUserStatusMessageComposer(this));
@@ -72,15 +110,32 @@ public class RoomUser {
 			e.printStackTrace();
 		}
 	}
+	
 	public void setPathFinderCollection(){
 		if(getRoom().getGameMap().isWalkable(this.getGoal().getX(), this.getGoal().getY()))
 			this.getPathfinder().findPath();
 	}
-	public void setPosition(Point p){ position = p; }
-	public void setGoal(Point p){ goal = p; }
-	public void setRotation(int rot){ rotation = rot;}
-	public void setZ(double Z){ z = Z;}
-	public void setSignTimer(int time){ signTimer = time;}
+	
+	public void setPosition(Point p){ 
+		position = p; 
+	}
+	
+	public void setGoal(Point p){
+		goal = p; 
+	}
+	
+	public void setRotation(int rot){
+		rotation = rot;
+	}
+	
+	public void setZ(double Z){ 
+		z = Z;
+	}
+	
+	public void setSignTimer(int time){ 
+		signTimer = time;
+	}
+	
 	public void exitRoom(){
 		ServerMessage DeleteRoomUser;
 		try {
@@ -99,6 +154,7 @@ public class RoomUser {
 			e.printStackTrace();
 		}
 	}
+	
 	public void removeFromRoom(){
 		ServerMessage DeleteRoomUser;
 		try {
@@ -114,25 +170,26 @@ public class RoomUser {
 			e.printStackTrace();
 		}
 	}
-	public void idle(){
-		isIdle = true;
+	
+	public void setIdle(boolean idle){
+		isIdle = idle;
 		session.sendComposer(new RoomUserIdleMessageComposer(getVirtualId(), isIdle));
 	}
-	public void unidle(){
-		isIdle = false;
-		session.sendComposer(new RoomUserIdleMessageComposer(getVirtualId(), isIdle));
-	}
+	
 	public void carry(int id) throws Exception{
 		carryId = id;
 		getRoom().sendComposer(new ApplyHanditemMessageComposer(getVirtualId(), getCarryItem()));
 	}
+	
 	public void enableDance(int d) throws Exception{
 		danceId = d;
 		getRoom().sendComposer(new DanceStatusMessageComposer(getVirtualId(), danceId));
 	}
+	
 	public Point getOldPosition() {
 		return old;
 	}
+	
 	public void setOldPosition(Point position) {
 		old = position;
 	}

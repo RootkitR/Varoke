@@ -17,20 +17,24 @@ import ch.rootkit.varoke.habbohotel.rooms.Room;
 import ch.rootkit.varoke.habbohotel.rooms.RoomTileState;
 
 public class RoomItemManager {
+	
 	private HashMap<Integer, RoomItem> floorItems;
 	private HashMap<Integer, RoomItem> wallItems;
 	private Room room;
+	
 	public RoomItemManager(Room r, HashMap<Integer, RoomItem> floor, HashMap<Integer, RoomItem> wall){
 		floorItems = floor;
 		wallItems = wall;
 		room = r;
 	}
+	
 	public void addFloorItem(RoomItem item) throws Exception{
 		floorItems.put(item.getId(), item);
 		getRoom().sendComposer(new AddFloorItemMessageComposer(item));
 		getRoom().getGameMap().setWalkable(item.getX(), item.getY(), canWalk(item.getX(), item.getY()));
 		getRoom().sendComposer(new UpdateFurniStackMapMessageComposer(item.getAffectedTiles(), getRoom()));
 	}
+	
 	public void removeFloorItem(int itemId, int picker) throws Exception{
 		RoomItem item = this.floorItems.get(itemId);
 		getRoom().sendComposer(new PickUpFloorItemMessageComposer(item, picker));
@@ -38,20 +42,33 @@ public class RoomItemManager {
 		getRoom().sendComposer(new UpdateFurniStackMapMessageComposer(item.getAffectedTiles(), getRoom()));
 		getRoom().getGameMap().setWalkable(item.getX(), item.getY(), canWalk(item.getX(), item.getY()));
 	}
+	
 	public void addWallItem(RoomItem item) throws Exception{
 		wallItems.put(item.getId(), item);
 		getRoom().sendComposer(new AddWallItemMessageComposer(item));
 	}
+	
 	public void removeWallItem(int itemId, int picker) throws Exception{
 		getRoom().sendComposer(new PickUpWallItemMessageComposer(this.wallItems.get(itemId), picker));
 		this.wallItems.remove(itemId);
 	}
+	
 	public Room getRoom(){
 		return room;
 	}
-	public RoomItem getFloorItem(int id){ return floorItems.get(id); }
-	public List<RoomItem> getFloorItems(){ return new ArrayList<RoomItem>(floorItems.values()); }
-	public List<RoomItem> getWallItems() { return new ArrayList<RoomItem>(wallItems.values()); }
+	
+	public RoomItem getFloorItem(int id){
+		return floorItems.get(id);
+	}
+	
+	public List<RoomItem> getFloorItems(){ 
+		return new ArrayList<RoomItem>(floorItems.values()); 
+	}
+	
+	public List<RoomItem> getWallItems() { 
+		return new ArrayList<RoomItem>(wallItems.values()); 
+	}
+	
 	public RoomItem getItem(int id) {
 		if(wallItems.containsKey(id))
 			return wallItems.get(id);
@@ -59,6 +76,7 @@ public class RoomItemManager {
 			return floorItems.get(id);
 		return null;
 	}
+	
 	public void removeItem(int id, int picker) throws Exception{
 		Varoke.getFactory().getItemFactory().pickItem(id);
 		if(wallItems.containsKey(id))
@@ -66,6 +84,7 @@ public class RoomItemManager {
 		if(floorItems.containsKey(id))
 			removeFloorItem(id, picker);
 	}
+	
 	public boolean canPlace(int x, int y){
 		List<RoomItem> itemsByHeight = getItemsOnSquare(x,y);
 		boolean result = false;
@@ -91,6 +110,7 @@ public class RoomItemManager {
 		itemsByHeight = null;
 		return result;
 	}
+	
 	public List<RoomItem> getItemsOnSquare(int x, int y){
 		List<RoomItem> result = new ArrayList<RoomItem>();
 		for(RoomItem item : this.floorItems.values())
@@ -99,6 +119,7 @@ public class RoomItemManager {
 					result.add(item);
 		return result;
 	}
+	
 	public boolean canWalk(int x, int y) {
 		List<RoomItem> itemsByHeight = getItemsOnSquare(x,y);
 		boolean result = false;
@@ -106,7 +127,7 @@ public class RoomItemManager {
 		if(itemsByHeight.size() == 0)
 			result = getRoom().getModel().getSquareStates()[x][y] == RoomTileState.OPEN;
 		else
-			result = itemsByHeight.get(0).getBaseItem().canWalk();
+			result = itemsByHeight.get(0).isWalkable();
 		itemsByHeight.clear();
 		itemsByHeight = null;
 		return result;

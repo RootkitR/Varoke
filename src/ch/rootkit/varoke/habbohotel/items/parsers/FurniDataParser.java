@@ -15,13 +15,16 @@ import org.xml.sax.SAXException;
 import ch.rootkit.varoke.Varoke;
 
 public class FurniDataParser {
+	
 	Document dom;
 	private HashMap<String, FurniData> floorItems;
 	private HashMap<String, FurniData> wallItems;
+	
 	public FurniDataParser(){
 		floorItems = new HashMap<String, FurniData>();
 		wallItems = new HashMap<String, FurniData>();
 	}
+	
 	public void parseXmlFile(){
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		try {
@@ -35,6 +38,7 @@ public class FurniDataParser {
 			ioe.printStackTrace();
 		}
 	}
+	
 	public void parseDocument(){
 		//FloorItems Part
 		Element docEle = (Element)dom.getDocumentElement().getElementsByTagName("roomitemtypes").item(0);
@@ -57,6 +61,7 @@ public class FurniDataParser {
 			}
 		}
 	}
+	
 	public FurniData getFloorFurniData(Element furni) {
 		return new FurniData(getIntAttribute(furni, "id"),
 				getTextValue(furni, "name"),
@@ -66,22 +71,28 @@ public class FurniDataParser {
 				Varoke.stringToBool(getTextValue(furni, "canstandon"))
 				);
 	}
+	
 	public FurniData getWallFurniData(Element furni){
 		return new FurniData(getIntAttribute(furni, "id"),
 				getTextValue(furni, "name"),0,0,false,false);
 	}
+	
 	public String getTextValue(Element ele, String tagName) {
 		return ele.getElementsByTagName(tagName).item(0).getTextContent();
 	}
+	
 	public String getAttribute(Element ele, String attr){
 		return ele.getAttribute(attr);
 	}
+	
 	public int getIntAttribute(Element ele, String attr){
 		return Integer.parseInt(ele.getAttribute(attr));
 	}
+	
 	public int getIntValue(Element ele, String tagName) {
 		return Integer.parseInt(getTextValue(ele,tagName));
 	}
+	
 	public FurniData getFurni(String itemName){
 		if(this.floorItems.containsKey(itemName))
 			return this.floorItems.get(itemName);

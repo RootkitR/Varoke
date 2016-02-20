@@ -10,10 +10,12 @@ public class DefaultInteractor extends Interactor {
 	public DefaultInteractor(RoomItem item) {
 		super(item);
 	}
+	
 	@Override
 	public void onPlace(RoomUser user) throws Exception{
 		super.onPlace(user);
 	}
+	
 	@Override
 	public void onTrigger(RoomUser user, boolean withRights) throws Exception{
 		super.onTrigger(user, withRights);
@@ -26,11 +28,13 @@ public class DefaultInteractor extends Interactor {
 			getItem().update();
 		}
 	}
+	
 	@Override
 	public void onWalk(RoomUser user) throws Exception {
 		super.onWalk(user);
 		System.out.println("Walks on");
 	}
+	
 	@Override
 	public void onWalkOff(RoomUser user) throws Exception {
 		super.onWalkOff(user);

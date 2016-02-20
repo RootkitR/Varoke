@@ -23,13 +23,20 @@ public class Messenger {
 	private HashMap<Integer, Request> requests;
 	private int User;
 	private boolean initialized;
+	
 	public Messenger(int user, HashMap<Integer, Friend> f, HashMap<Integer, Request> r){
 		friends = f;
 		requests = r;
 		User = user;
 	}
-	public HashMap<Integer, Friend> getFriends(){ return friends;}
-	public HashMap<Integer, Request> getRequests(){ return requests;}
+	
+	public HashMap<Integer, Friend> getFriends(){ 
+		return friends;
+	}
+	
+	public HashMap<Integer, Request> getRequests(){ 
+		return requests;
+	}
 	
 	public void removeFriend(int userId, boolean updateOther) throws Exception{
 		if(friends.containsKey(userId)){
@@ -41,6 +48,7 @@ public class Messenger {
 				cn.getHabbo().getMessenger().removeFriend(User, false);
 		}
 	}
+	
 	public void acceptRequest(int userId) throws Exception{
 		if(requests.containsKey(userId)){
 			requests.remove(userId);
@@ -53,41 +61,49 @@ public class Messenger {
 				cn.getHabbo().getMessenger().addFriend(User);
 		}
 	}
+	
 	public void addFriend(int userId) throws Exception{
 		if(!friends.containsKey(userId) && !requests.containsKey(userId)){
 			friends.put(userId, Varoke.getFactory().getMessengerFactory().buildFriend(userId, User));
 			updateFriend(userId);
 		}
 	}
+	
 	public void declineRequest(int userId) throws Exception{
 		if(requests.containsKey(userId)){
 			Varoke.getFactory().getMessengerFactory().removeRequest(userId, User);
 			requests.remove(userId);
 		}
 	}
+	
 	public void declineAllRequests() throws Exception{
 		Varoke.getFactory().getMessengerFactory().removeAllRequests(User);
 		requests.clear();
 	}
+	
 	public void createRequest(int To) throws Exception{
 		if(friends.containsKey(To) || requests.containsKey(To) || Varoke.getFactory().getMessengerFactory().requestExists(User, To)) return;
 		Varoke.getFactory().getMessengerFactory().createRequest(User, To);
 		if(Varoke.getSessionManager().getSessionByUserId(To) != null)
 			Varoke.getSessionManager().getSessionByUserId(To).getHabbo().getMessenger().addRequest(User);
 	}
+	
 	public void addRequest(int userId)throws Exception{
 		if(friends.containsKey(userId) || requests.containsKey(userId)) return;
 		Request r = Varoke.getFactory().getMessengerFactory().buildRequest(userId);
 		this.requests.put(userId, r);
 		getSession().sendComposer(new ConsoleSendFriendRequestMessageComposer(r));
 	}
+	
 	public void updateFriend(int userId)throws Exception{
 		if(isInitialized())
 			getSession().sendComposer(new FriendUpdateMessageComposer(FriendUpdateType.UPDATE, getFriends().get(userId)));
 	}
+	
 	public Session getSession(){
 		return Varoke.getSessionManager().getSessionByUserId(User);
 	}
+	
 	public void updateMyself()throws Exception{
 		for(Friend f : getFriends().values()){
 			if(f != null && f.getSession() != null){
@@ -97,6 +113,7 @@ public class Messenger {
 			}
 		}
 	}
+	
 	public void handleMessage(int to, String message) throws Exception{
 		if(!getFriends().containsKey(to)){
 			getSession().sendComposer(new ConsoleChatErrorMessageComposer(6, to));
@@ -121,9 +138,11 @@ public class Messenger {
 			CommandHandler.storeMessage(User, to, -1, message, "offline");
 		}
 	}
+	
 	public void setInitialized(boolean b){
 		initialized = b;
 	}
+	
 	public boolean isInitialized(){ return initialized;}
 	public void composeOfflineMessages() throws Exception{
 		for(OfflineMessage om : Varoke.getGame().getOfflineMessageManager().getMessagesByUser(User)){
@@ -134,6 +153,7 @@ public class Messenger {
 		}
 		
 	}
+	
 	public void search(String query) throws Exception{
 		List<Result> friends = new ArrayList<Result>();
 		List<Result> others = new ArrayList<Result>();

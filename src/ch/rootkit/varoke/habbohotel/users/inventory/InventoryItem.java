@@ -13,6 +13,7 @@ public class InventoryItem {
 	private int LimitedId;
 	private String ExtraData;
 	private boolean BuildersItem;
+	
 	public InventoryItem(int id,int userId, int baseId, int groupId, int limitedId, String extraData, boolean isBuildersItem){
 		Id = id;
 		BaseId = baseId;
@@ -22,14 +23,39 @@ public class InventoryItem {
 		ExtraData = extraData;
 		BuildersItem = isBuildersItem;
 	}
-	public int getId() { return Id;}
-	public int getBaseId() { return BaseId; }
-	public int getUserId() { return UserId; }
-	public int getGroupId() { return GroupId; }
-	public int getLimitedId() { return LimitedId; }
-	public String getExtraData() { return ExtraData; }
-	public boolean isBuildersClubItem() { return BuildersItem; }
-	public Item getBaseItem() { return Varoke.getGame().getItemManager().getItem(getBaseId()); }
+	
+	public int getId() { 
+		return Id;
+	}
+	
+	public int getBaseId() { 
+		return BaseId; 
+	}
+	
+	public int getUserId() { 
+		return UserId; 
+	}
+	
+	public int getGroupId() { 
+		return GroupId; 
+	}
+	
+	public int getLimitedId() { 
+		return LimitedId; 
+	}
+	
+	public String getExtraData() {
+		return ExtraData; 
+	}
+	
+	public boolean isBuildersClubItem() { 
+		return BuildersItem;
+	}
+	
+	public Item getBaseItem() { 
+		return Varoke.getGame().getItemManager().getItem(getBaseId()); 
+	}
+	
 	public void compose(ServerMessage message) throws Exception {
 		message.writeInt(getId());
 		message.writeString(getBaseItem().getType().toUpperCase());
@@ -66,6 +92,7 @@ public class InventoryItem {
         message.writeString(""); //slotId
         message.writeInt(presentParam);
 	}
+	
 	public void setExtraData(String data) throws Exception {
 		this.ExtraData = data;
 		Varoke.getFactory().getInventoryFactory().updateExtraData(this);

@@ -13,10 +13,10 @@ public class RoomUserActionMessageEvent implements MessageEvent {
 		if(session.getHabbo().getCurrentRoom() == null) return;
 		RoomUser roomUser = session.getHabbo().getCurrentRoom().getRoomUserById(session.getHabbo().getId());
 		if(roomUser == null) return;
-		roomUser.unidle();
+		roomUser.setIdle(false);
 		int action = event.readInt();
 		roomUser.getRoom().sendComposer(new RoomUserActionMessageComposer(roomUser.getVirtualId(), action));
 		if(action == 5)
-			roomUser.idle();
+			roomUser.setIdle(true);
 	}
 }

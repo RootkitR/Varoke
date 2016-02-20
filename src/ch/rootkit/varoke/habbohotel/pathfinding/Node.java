@@ -2,6 +2,7 @@ package ch.rootkit.varoke.habbohotel.pathfinding;
 
 public class Node
 extends AbstractNode {
+	
     public Node(int xPosition, int yPosition) {
         super(xPosition, yPosition);
     }

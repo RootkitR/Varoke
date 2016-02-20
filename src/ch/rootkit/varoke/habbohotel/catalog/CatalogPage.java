@@ -36,6 +36,7 @@ public class CatalogPage {
 	private List<CatalogItem> Items;
 	private List<Integer> FlatOffers;
 	private Page layout;
+	
 	public CatalogPage(int id, int parentid, String codename, String caption, int icon, boolean visible, boolean enabled, int minrank, boolean clubonly, int ordernum, String pagelayout,String pageheadline, String pageteaser, String pagespecial, String pagetext1, String pagetext2, String pagetextdetails,String pagetextteaser, boolean viponly, String pagelinkdesc, String pagelinkname, List<CatalogItem> items){
 		this.Id = id;
 		this.ParentId = parentid;
@@ -71,30 +72,103 @@ public class CatalogPage {
 		}
 		this.layout = Varoke.getFactory().getCatalogFactory().getPageLayout(this);
 	}
-	public int getId(){ return this.Id;}
-	public int getParentId(){ return this.ParentId;}
-	public int getIcon(){ return this.Icon;}
-	public int getMinRank(){ return this.MinRank;}
-	public int getOrderNum(){ return this.OrderNum;}
-	public String getCodeName(){return this.CodeName;}
-	public String getCaption(){ return this.Caption;}
-	public String getLayout(){return this.PageLayout;}
-	public String getHeadline(){return this.PageHeadline;}
-	public String getTeaser(){ return this.PageTeaser;}
-	public String getPageSpecial(){return this.PageSpecial;}
-	public String getText1(){ return this.PageText1;}
-	public String getText2(){ return this.PageText2;}
-	public String getTextDetails(){return this.PageTextDetails;}
-	public String getTextTeaser(){ return this.PageTextTeaser;}
-	public String getLinkDescription(){return this.PageLinkDescription;}
-	public String getLinkName(){return this.PageLinkName;}
-	public boolean isVisible(){ return this.Visible;}
-	public boolean isEnabled(){ return this.Enabled;}
-	public boolean isClubOnly(){ return this.ClubOnly;}
-	public boolean isVipOnly(){ return this.VipOnly;}
-	public List<CatalogItem> getItems(){ return this.Items;}
-	public List<Integer> getFlatOffers(){ return this.FlatOffers;}
-	public Page getPage() { return layout; }
+	
+	public int getId(){ 
+		return this.Id;
+	}
+	
+	public int getParentId(){ 
+		return this.ParentId;
+	}
+	
+	public int getIcon(){ 
+		return this.Icon;
+	}
+	
+	public int getMinRank(){ 
+		return this.MinRank;
+	}
+	
+	public int getOrderNum(){ 
+		return this.OrderNum;
+	}
+	
+	public String getCodeName(){
+		return this.CodeName;
+	}
+	
+	public String getCaption(){ 
+		return this.Caption;
+	}
+	
+	public String getLayout(){
+		return this.PageLayout;
+	}
+	
+	public String getHeadline(){
+		return this.PageHeadline;
+	}
+	
+	public String getTeaser(){ 
+		return this.PageTeaser;
+	}
+	
+	public String getPageSpecial(){
+		return this.PageSpecial;
+	}
+	
+	public String getText1(){ 
+		return this.PageText1;
+	}
+	
+	public String getText2(){ 
+		return this.PageText2;
+	}
+	
+	public String getTextDetails(){
+		return this.PageTextDetails;
+	}
+	
+	public String getTextTeaser(){ 
+		return this.PageTextTeaser;
+	}
+	
+	public String getLinkDescription(){
+		return this.PageLinkDescription;
+	}
+	
+	public String getLinkName(){
+		return this.PageLinkName;
+	}
+	
+	public boolean isVisible(){ 
+		return this.Visible;
+	}
+	
+	public boolean isEnabled(){ 
+		return this.Enabled;
+	}
+	
+	public boolean isClubOnly(){ 
+		return this.ClubOnly;
+	}
+	
+	public boolean isVipOnly(){ 
+		return this.VipOnly;
+	}
+	
+	public List<CatalogItem> getItems(){ 
+		return this.Items;
+	}
+	
+	public List<Integer> getFlatOffers(){ 
+		return this.FlatOffers;
+	}
+	
+	public Page getPage() { 
+		return layout; 
+	}
+	
 	public boolean hasItem(int itemId){
 		for(CatalogItem item : getItems()){
 			if(item != null && item.getId() == itemId)
@@ -102,6 +176,7 @@ public class CatalogPage {
 		}
 		return false;
 	}
+	
 	public void compose(ServerMessage message) throws Exception{
 		this.getPage().compose(message);
 	}

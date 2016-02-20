@@ -8,17 +8,22 @@ import io.netty.channel.Channel;
 
 
 public class SessionManager {
+	
 	private HashMap<Channel, Session> connections;
 	private int nextId = 0;
+	
 	public SessionManager() {
 		connections = new HashMap<Channel, Session>();
 	}
+	
 	public void addConnection(Channel c){
 		connections.put(c, new Session(getNextId(), c));
 	}
+	
 	public int getNextId(){
 		return nextId++;
 	}
+	
 	public void removeSession(Channel c) throws Exception{
 		Session session = getSessionByChannel(c);
 		connections.remove(c);
@@ -27,11 +32,13 @@ public class SessionManager {
 			session.getHabbo().getMessenger().updateMyself();
 		}
 	}
+	
 	public Session getSessionByChannel(Channel c){
 		if(!connections.containsKey(c))
 			return null;
 		return connections.get(c);
 	}
+	
 	public Session getSessionByUserId(int id){
 		for(Session cn : connections.values()){
 			if(cn.getHabbo() != null && cn.getHabbo().getId() == id)
@@ -39,6 +46,7 @@ public class SessionManager {
 		}
 		return null;
 	}
+	
 	public Session getSessionByUsername(String name){
 		for(Session cn : connections.values()){
 			if(cn.getHabbo() != null && cn.getHabbo().getUsername().equals(name))
@@ -46,6 +54,7 @@ public class SessionManager {
 		}
 		return null;
 	}
+	
 	public void sendToUsersWithFuse(String fuse, MessageComposer composer, int user) throws Exception{
 		ServerMessage buffer = composer.compose();
 		for(Session cn : connections.values()){
@@ -55,6 +64,7 @@ public class SessionManager {
 		buffer = null;
 		composer = null;
 	}
+	
 	public void sendComposerToUsers(Integer[] userIds, MessageComposer composer)throws Exception{
 		ServerMessage buffer = composer.compose();
 		for(int i : userIds){
@@ -66,6 +76,7 @@ public class SessionManager {
 		buffer = null;
 		composer = null;
 	}
+	
 	public void globalComposer(MessageComposer composer) throws Exception{
 		ServerMessage buffer = composer.compose();
 		for(Session cn : connections.values()){
@@ -77,6 +88,7 @@ public class SessionManager {
 		buffer = null;
 		composer = null;
 	}
+	
 	public int size(){
 		return connections.size();
 	}

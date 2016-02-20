@@ -17,10 +17,13 @@ import ch.rootkit.varoke.habbohotel.users.Habbo;
 import ch.rootkit.varoke.utils.Logger;
 
 public class Navigator {
+	
 	public List<NavigatorCategory> categories;
 	public List<FlatCat> flatcats;
+	
 	public Navigator(){
 	}
+	
 	public void initialize() throws Exception{
 		final long started = new Date().getTime();
 		Logger.printVaroke("Initializing Navigator ");
@@ -28,6 +31,7 @@ public class Navigator {
 		flatcats = Varoke.getFactory().getNavigatorFactory().readFlatCats();
 		Logger.printLine("(" +  (new Date().getTime() - started) + " ms)");
 	}
+	
 	public int getNavigatorLength(String value, Habbo session)
     {
         switch (value)
@@ -43,7 +47,11 @@ public class Navigator {
         }
         return 1;
     }
-	public List<FlatCat> getFlats(){ return flatcats;}
+	
+	public List<FlatCat> getFlats(){ 
+		return flatcats;
+	}
+	
 	public int getFlatsCount(Habbo session){
 		int result = 0;
 		for(FlatCat f : flatcats){
@@ -52,6 +60,7 @@ public class Navigator {
 		}
 		return result;
 	}
+	
 	public NavigatorCategory getCategory(String value){
 		for(NavigatorCategory nc : categories){
 			if(nc.getTitle().equals(value))
@@ -59,6 +68,7 @@ public class Navigator {
 		}
 		return null;
 	}
+	
 	public NavigatorCategory getCategoryById(int value){
 		for(NavigatorCategory nc : categories){
 			if(nc.getId() == value)
@@ -66,6 +76,7 @@ public class Navigator {
 		}
 		return null;
 	}
+	
 	public FlatCat getFlatCat(String value){
 		
 		for(FlatCat fc : flatcats){
@@ -74,6 +85,7 @@ public class Navigator {
 		}
 		return null;
 	}
+	
 	public FlatCat getFlatCatById(int value){
 		
 		for(FlatCat fc : flatcats){
@@ -82,6 +94,7 @@ public class Navigator {
 		}
 		return null;
 	}
+	
 	public boolean isCateogry(String value){
 		for(NavigatorCategory nc : categories){
 			if(nc.getTitle().equals(value))
@@ -89,6 +102,7 @@ public class Navigator {
 		}
 		return false;
 	}
+	
 	public boolean isFlatcat(String value){
 		for(FlatCat fc : flatcats){
 			if(fc.getEventCatName().equals(value))
@@ -96,6 +110,7 @@ public class Navigator {
 		}
 		return false;
 	}
+	
 	public List<Room> getRoomsByFlatcat(int id){
 		List<Room> rooms = new ArrayList<Room>();
 		for(Room r : Varoke.getGame().getRoomManager().loadedRooms.values()){
@@ -104,6 +119,7 @@ public class Navigator {
 		}
 		return rooms;
 	}
+	
 	public void serializeNavigator(String staticId, boolean direct, Session session, ServerMessage message) throws Exception {
 		
 		if (StringUtils.isNullOrEmpty(staticId) || staticId.equals("official")) staticId = "official_view";
@@ -164,6 +180,7 @@ public class Navigator {
 	        }
         }
 	}
+	
 	public void serializeUserRooms(ServerMessage message, Session session) throws Exception{
 		List<RoomData> myRooms = Varoke.getFactory().getRoomFactory().readUserRooms(session.getHabbo());
 		message.writeInt(myRooms.size());
@@ -171,6 +188,7 @@ public class Navigator {
 			roomData.serialize(message);
 		}
 	}
+	
 	public void serializePopularRooms(ServerMessage message) throws Exception{
 		List<Room> rooms = new ArrayList<Room>(Varoke.getGame().getRoomManager().loadedRooms.values());
 		Collections.sort(rooms, new Comparator<Room>() {
@@ -183,6 +201,7 @@ public class Navigator {
 			room.getData().serialize(message);
 		}
 	}
+	
 	public void performSearch(String value1, String search, Session session, ServerMessage message) throws Exception{
 		String type = "";
 		

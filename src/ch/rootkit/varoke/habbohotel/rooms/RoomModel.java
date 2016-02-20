@@ -21,6 +21,7 @@ public class RoomModel
 	private int[][] Squares;
 	private double[][] SquareHeight;
 	private RoomTileState[][] SquareState;
+	
 	public RoomModel(String id, String heightMap, String publicItems, int doorX, int doorY, int doorZ, int doorDir, boolean clubOnly, int divisor){
 		Id = id;
 		Heightmap = heightMap;
@@ -66,19 +67,59 @@ public class RoomModel
 			Map += line + ";";
 		}
 	}
-	public String getId(){ return Id;}
-	public String getHeightmap(){ return Heightmap;}
-	public String getPublicItems(){ return PublicItems;}
-	public Door getDoor(){ return door;}
-	public boolean clubOnly(){ return ClubOnly;}
-	public int getDivisor(){ return Divisor;}
-	public int getSizeX(){ return MapSizeX;}
-	public int getSizeY(){ return MapSizeY;}
-	public int getSize(){ return MapSize;}
-	public String getMap(){ return Map;}
-	public String getRelativeMap(){ return RelativeMap;}
-	public RoomTileState[][] getSquareStates(){ return SquareState;}
-	public int[][] getSquares(){ return Squares;}
+	
+	public String getId(){ 
+		return Id;
+	}
+	
+	public String getHeightmap(){
+		return Heightmap;
+	}
+	
+	public String getPublicItems(){ 
+		return PublicItems;
+	}
+	
+	public Door getDoor(){ 
+		return door;
+	}
+	
+	public boolean clubOnly(){ 
+		return ClubOnly;
+	}
+	
+	public int getDivisor(){ 
+		return Divisor;
+	}
+	
+	public int getSizeX(){
+		return MapSizeX;
+	}
+	
+	public int getSizeY(){ 
+		return MapSizeY;
+	}
+	
+	public int getSize(){
+		return MapSize;
+	}
+	
+	public String getMap(){ 
+		return Map;
+	}
+	
+	public String getRelativeMap(){ 
+		return RelativeMap;
+	}
+	
+	public RoomTileState[][] getSquareStates(){ 
+		return SquareState;
+	}
+	
+	public int[][] getSquares(){ 
+		return Squares;
+	}
+	
 	public double getHeight(int x, int y)
 	{
 		return SquareHeight[x][y];

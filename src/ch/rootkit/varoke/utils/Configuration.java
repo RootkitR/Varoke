@@ -9,7 +9,9 @@ import java.util.HashMap;
 import com.mysql.jdbc.StringUtils;
 
 public class Configuration {
+	
 	private static HashMap<String,String> configurations;
+	
 	public static void initialize() throws Exception{
 		configurations = new HashMap<String, String>();
 		Path p = Paths.get(System.getProperty("user.dir"), "configuration.varoke");
@@ -21,6 +23,7 @@ public class Configuration {
 			}
 		}
 	}
+	
 	public static String get(String key){
 		if(configurations.containsKey(key))
 			return configurations.get(key);

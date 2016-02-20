@@ -11,7 +11,7 @@ public class UserDanceMessageEvent implements MessageEvent {
 	public void handle(Session session, ClientMessage event) throws Exception {
 		RoomUser roomUser = session.getHabbo().getCurrentRoom().getRoomUserById(session.getHabbo().getId());
 		if(roomUser == null) return;
-		roomUser.unidle();
+		roomUser.setIdle(false);
 		int danceId = event.readInt();
 		if(danceId < 0 || danceId > 4)
 			danceId = 0;

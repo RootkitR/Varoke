@@ -1,6 +1,7 @@
 package ch.rootkit.varoke.habbohotel.items.parsers;
 
 public class FurniData {
+	
     private int Id;
     private int X;
     private int Y;
@@ -17,11 +18,29 @@ public class FurniData {
         CanSit = canSit;
         CanWalk = canWalk;
     }
-    public int getId(){ return this.Id;}
-    public int getX(){ return this.X;}
-    public int getY(){ return this.Y;}
-    public String getName(){ return this.Name;}
-    public boolean canSit(){ return this.CanSit;}
-    public boolean canWalk(){ return this.CanWalk;}
+    
+    public int getId(){ 
+    	return this.Id;
+    }
+    
+    public int getX(){ 
+    	return this.X;
+    }
+    
+    public int getY(){ 
+    	return this.Y;
+    }
+    
+    public String getName(){ 
+    	return this.Name;
+    }
+    
+    public boolean canSit(){ 
+    	return this.CanSit;
+    }
+    
+    public boolean canWalk(){ 
+    	return this.CanWalk;
+    }
 }
 

@@ -6,6 +6,7 @@ import ch.rootkit.varoke.Varoke;
 import ch.rootkit.varoke.communication.messages.ServerMessage;
 
 public class RoomData {
+	
 	private String Name;
 	private String Description;
 	/*private String Owner; gonna do this with magic.. :D */
@@ -27,6 +28,7 @@ public class RoomData {
 	private List<String> Tags;
 	private String Image;
 	private int wallHeight;
+	
 	public RoomData(int id, String name, String description, String roomModel,String image, int owner, int category, int usersMax, int state, String wallpaper, String floor, String landscape,
 			boolean allowPets, boolean allowPetsEat, boolean wholeRoomMuted, List<String> tags, List<Integer> ratings, int wall_height, boolean walkthrough){
 		Id = id;
@@ -49,39 +51,106 @@ public class RoomData {
 		wallHeight = wall_height;
 		AllowWalkthrough = walkthrough;
 	}
-	public int getId(){ return Id;}
-	public int getState(){ return State;}
-	public int getUsersMax(){ return UsersMax;}
-	public int getScore(){ return Ratings.size();}
-	public int getCategory(){ return Category;}
-	public int getOwner(){ return OwnerId;}
-	public String getName(){ return Name;}
-	public String getDescription(){ return Description;}
-	public String getImage(){ return Image;}
-	public int getWallHeight(){ return wallHeight;}
+	
+	public int getId(){ 
+		return Id;
+	}
+	
+	public int getState(){ 
+		return State;
+	}
+	
+	public int getUsersMax(){ 
+		return UsersMax;
+	}
+	
+	public int getScore(){
+		return Ratings.size();
+	}
+	
+	public int getCategory(){ 
+		return Category;
+	}
+	
+	public int getOwner(){ 
+		return OwnerId;
+	}
+	
+	public String getName(){ 
+		return Name;
+	}
+	
+	public String getDescription(){
+		return Description;
+	}
+	
+	public String getImage(){
+		return Image;
+	}
+	
+	public int getWallHeight(){
+		return wallHeight;
+	}
+	
 	public int getUsersOnline(){
 		return Varoke.getGame().getRoomManager().getUsersInRoom(getId());
 	}
+	
 	public String getOwnerName(){ 
 		try {
 			return (String) Varoke.getFactory().getUserFactory().getValueFromUser("username", getOwner());
 		} catch (Exception e) {
 			return "";}
 	}
-	public String getModelName(){ return Model;}
-	public String getWallpaper(){ return Wallpaper;}
-	public String getFloor(){ return Floor;}
-	public String getLandscape(){ return Landscape;}
-	public Boolean petsAllowed(){ return AllowPets;}
-	public Boolean petsCanEat(){ return AllowPetsEat;}
-	public Boolean roomMuted(){ return RoomMuted;}
-	public Boolean allowWalkthrough(){ return AllowWalkthrough; }
-	public Boolean hasTag(String tag){ return getTags().contains(tag);}
-	public Boolean canRate(int userId){ return Ratings.contains(userId);}
-	public List<String> getTags(){ return Tags;}
+	
+	public String getModelName(){ 
+		return Model;
+	}
+	
+	public String getWallpaper(){
+		return Wallpaper;
+	}
+	
+	public String getFloor(){
+		return Floor;
+	}
+	
+	public String getLandscape(){
+		return Landscape;
+	}
+	
+	public Boolean petsAllowed(){ 
+		return AllowPets;
+	}
+	
+	public Boolean petsCanEat(){ 
+		return AllowPetsEat;
+	}
+	
+	public Boolean roomMuted(){ 
+		return RoomMuted;
+	}
+	
+	public Boolean allowWalkthrough(){ 
+		return AllowWalkthrough; 
+	}
+	
+	public Boolean hasTag(String tag){
+		return getTags().contains(tag);
+	}
+	
+	public Boolean canRate(int userId){ 
+		return Ratings.contains(userId);
+	}
+	
+	public List<String> getTags(){ 
+		return Tags;
+	}
+	
 	public void serialize(ServerMessage message)throws Exception{
 		serialize(message, false);
 	}
+	
 	public void serialize(ServerMessage message, boolean showEvent) throws Exception{
 		message.writeInt(getId());
 		message.writeString(getName());
@@ -111,6 +180,7 @@ public class RoomData {
         	message.writeInt(0);
         }
 	}
+	
 	public void addRating(int userId) throws Exception{
 		this.Ratings.add(userId);
 		Varoke.getFactory().getRoomFactory().addRating(getId(), userId);

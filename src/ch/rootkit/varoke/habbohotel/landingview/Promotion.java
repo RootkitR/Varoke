@@ -22,13 +22,33 @@ public class Promotion {
         this.ImageLink = imageLink;
     }
     
-    public int getId(){ return Id; }
-    public String getTitle() { return Title; }
-    public String getText() { return Text; }
-    public int getButtonType() { return ButtonType; }
-    public String getButtonText() { return ButtonText; }
-    public String getButtonLink() { return ButtonLink; }
-    public String getImageLink() { return ImageLink; }
+    public int getId(){
+    	return Id; 
+    }
+    
+    public String getTitle() { 
+    	return Title; 
+    }
+    
+    public String getText() { 
+    	return Text; 
+    }
+    
+    public int getButtonType() {
+    	return ButtonType; 
+    }
+    
+    public String getButtonText() {
+    	return ButtonText; 
+    }
+    
+    public String getButtonLink() { 
+    	return ButtonLink;
+    }
+    
+    public String getImageLink() { 
+    	return ImageLink; 
+    }
     
     public void compose(ServerMessage message) throws Exception{
     	message.writeInt(getId());
