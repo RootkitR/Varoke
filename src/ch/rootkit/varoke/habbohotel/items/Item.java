@@ -39,11 +39,13 @@ public class Item {
 		this.Type = type;
 		this.InteractionType = interactionType;
 		this.VendingIds = new ArrayList<Integer>();
-		for(String s : vendingId.split(",",999))
-		{this.VendingIds.add(Integer.parseInt(s));}
+		for(String s : vendingId.split(",")){
+			this.VendingIds.add(Integer.parseInt(s));
+		}
 		this.StackHeight = new ArrayList<Double>();
-		for(String s : stackHeight.split(";",999))
-		{this.StackHeight.add(Double.parseDouble(s));}
+		for(String s : stackHeight.split(";")){
+			this.StackHeight.add(Double.parseDouble(s));
+		}
 		this.CanStack = canStack;
 		this.AllowRecycle = allowRecycle;
 		this.AllowTrade = allowTrade;

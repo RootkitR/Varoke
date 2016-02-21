@@ -286,4 +286,29 @@ public class RoomItem {
 	public boolean isWalkable(){
 		return getInteractor().isWalkable();
 	}
+
+	public Point inFront() {
+		Point result = new Point(getX(), getY());
+        {
+            switch (getRotation())
+            {
+                case 0:
+                    result.setY(result.getY() - 1);
+                    break;
+
+                case 2:
+                    result.setX(result.getX() + 1);
+                    break;
+
+                case 4:
+                    result.setY(result.getY() + 1);
+                    break;
+
+                case 6:
+                    result.setX(result.getX() - 1);;
+                    break;
+            }
+            return result;
+        }
+	}
 }

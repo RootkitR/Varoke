@@ -180,7 +180,9 @@ public class GameMap {
         }
         return adj;
     }
-
+    public boolean tilesTouching(Point p, Point p2){
+    	return (Math.abs(p.getX() - p2.getX()) <= 1 && Math.abs(p.getY() - p2.getY()) <= 1) || (p.getX() == p2.getX() && p.getY() == p2.getY());
+    }
     public void finalize() throws Throwable {
         super.finalize();
     }

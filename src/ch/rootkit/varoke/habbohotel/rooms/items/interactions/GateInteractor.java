@@ -19,6 +19,8 @@ public class GateInteractor extends Interactor{
 	@Override
 	public void onTrigger(RoomUser user, boolean withRights) throws Exception {
 		super.onTrigger(user, withRights);
+		if(!withRights)
+			return;
 		getItem().setExtraData(
 				(getItem().getExtraData().equals("0") || 
 				StringUtils.isNullOrEmpty(getItem().getExtraData())) ? 

@@ -11,6 +11,8 @@ public class InteractorFactory {
 			return new PressurePlateInteractor(roomItem);
 		case "gate":
 			return new GateInteractor(roomItem);
+		case "vendingmachine":
+			return new VendorInteractor(roomItem);
 		default:
 			return new DefaultInteractor(roomItem);
 		}

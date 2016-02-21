@@ -19,6 +19,8 @@ public class DefaultInteractor extends Interactor {
 	@Override
 	public void onTrigger(RoomUser user, boolean withRights) throws Exception{
 		super.onTrigger(user, withRights);
+		if(!withRights)
+			return;
 		int currentInteraction = Integer.parseInt(StringUtils.isNullOrEmpty(getItem().getExtraData()) ? "0" : getItem().getExtraData());
 		if(currentInteraction < (getItem().getBaseItem().getInteractionsModes() - 1)){
 			getItem().setExtraData((currentInteraction  + 1) + "");
