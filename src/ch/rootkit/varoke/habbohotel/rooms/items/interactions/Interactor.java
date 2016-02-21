@@ -20,7 +20,11 @@ public abstract class Interactor {
 	}
 	
 	public void onWalk(RoomUser user) throws Exception{
-		
+		if(getItem().getBaseItem().canSit()){
+			user.setRotation(getItem().getRotation());
+			user.addStatus("sit", ""+ getItem().getFullHeight());
+			
+		}
 	}
 	
 	public void onWalkOff(RoomUser user) throws Exception{

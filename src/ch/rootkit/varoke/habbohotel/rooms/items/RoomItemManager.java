@@ -15,6 +15,7 @@ import ch.rootkit.varoke.habbohotel.comparators.RoomItemHeightComparator;
 import ch.rootkit.varoke.habbohotel.pathfinding.Point;
 import ch.rootkit.varoke.habbohotel.rooms.Room;
 import ch.rootkit.varoke.habbohotel.rooms.RoomTileState;
+import ch.rootkit.varoke.habbohotel.rooms.users.RoomUser;
 
 public class RoomItemManager {
 	
@@ -32,6 +33,11 @@ public class RoomItemManager {
 		floorItems.put(item.getId(), item);
 		getRoom().sendComposer(new AddFloorItemMessageComposer(item));
 		for(Point p : item.getAffectedTiles()){
+			for(RoomUser user : getRoom().getUserOnSquare(p)){
+				user.setRotation(item.getRotation());
+				user.addStatus("sit", ""+ item.getFullHeight());
+				user.updateStatus();
+			}
 			getRoom().getGameMap().setWalkable(p.getX(), p.getY(), canWalk(p.getX(), p.getY()));
 		}
 		getRoom().sendComposer(new UpdateFurniStackMapMessageComposer(item.getAffectedTiles(), getRoom()));
@@ -43,6 +49,12 @@ public class RoomItemManager {
 		this.floorItems.remove(itemId);
 		getRoom().sendComposer(new UpdateFurniStackMapMessageComposer(item.getAffectedTiles(), getRoom()));
 		for(Point p : item.getAffectedTiles()){
+			for(RoomUser user : getRoom().getUserOnSquare(p)){
+				if(user.getStatusses().containsKey("sit")){
+					user.getStatusses().remove("sit");
+				}
+				user.updateStatus();
+			}
 			getRoom().getGameMap().setWalkable(p.getX(), p.getY(), canWalk(p.getX(), p.getY()));
 		}
 	}
@@ -136,4 +148,31 @@ public class RoomItemManager {
 		itemsByHeight = null;
 		return result;
 	}
+
+	public boolean isSeat(Point goal) {
+		List<RoomItem> itemsByHeight = getItemsOnSquare(goal.getX(),goal.getY());
+		boolean result = false;
+		Collections.sort(itemsByHeight, new RoomItemHeightComparator());
+		if(itemsByHeight.size() == 0)
+			result = false;
+		else
+			result = itemsByHeight.get(0).getBaseItem().canSit();
+		itemsByHeight.clear();
+		itemsByHeight = null;
+		return result && !getRoom().userOnSeat(goal);
+	}
+
+	public double getZ(int x, int y) {
+		List<RoomItem> itemsByHeight = getItemsOnSquare(x,y);
+		double result = 0.0;
+		Collections.sort(itemsByHeight, new RoomItemHeightComparator());
+		if(itemsByHeight.size() == 0)
+			result = getRoom().getModel().getHeight(x, y);
+		else
+			result = itemsByHeight.get(0).getZ();
+		itemsByHeight.clear();
+		itemsByHeight = null;
+		return result;
+	}
+	
 }

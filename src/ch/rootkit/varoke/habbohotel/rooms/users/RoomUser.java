@@ -112,7 +112,7 @@ public class RoomUser {
 	}
 	
 	public void setPathFinderCollection(){
-		if(getRoom().getGameMap().isWalkable(this.getGoal().getX(), this.getGoal().getY()))
+		if(getRoom().getGameMap().isWalkable(this.getGoal().getX(), this.getGoal().getY()) || getRoom().getItemManager().isSeat(this.getGoal()))
 			this.getPathfinder().findPath();
 	}
 	

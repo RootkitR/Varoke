@@ -160,4 +160,30 @@ public class Room {
 				roomUser.setPathFinderCollection();
 		}
 	}
+	
+	public boolean userOnSeat(Point goal){
+		for(RoomUser roomUser : users.values()){
+			if(roomUser != null && roomUser.getPosition().equals(goal))
+				return true;
+		}
+		return false;
+	}
+
+	public List<RoomUser> getUserOnSquare(Point p) {
+		List<RoomUser> result = new ArrayList<RoomUser>();
+		for(RoomUser roomUser : users.values()){
+			if(roomUser != null && roomUser.getPosition().equals(p))
+				result.add(roomUser);
+		}
+		return result;
+	}
+
+	public boolean hasPosition(Point position, List<Point> affectedTiles) {
+		boolean result = false;
+		for(Point p : affectedTiles){
+			if(p.equals(position))
+				result = true;
+		}
+		return result;
+	}
 }

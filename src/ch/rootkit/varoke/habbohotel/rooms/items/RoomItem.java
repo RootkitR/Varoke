@@ -13,6 +13,7 @@ import ch.rootkit.varoke.habbohotel.pathfinding.Point;
 import ch.rootkit.varoke.habbohotel.rooms.Room;
 import ch.rootkit.varoke.habbohotel.rooms.items.interactions.Interactor;
 import ch.rootkit.varoke.habbohotel.rooms.items.interactions.InteractorFactory;
+import ch.rootkit.varoke.habbohotel.rooms.users.RoomUser;
 
 public class RoomItem {
 
@@ -256,11 +257,23 @@ public class RoomItem {
 		Varoke.getFactory().getItemFactory().saveItemState(this);
 		getRoom().sendComposer(new UpdateRoomItemMessageComposer(this));
 		for(Point p : oldAffectedTiles){
+			if(this.getBaseItem().canSit()){
+				for(RoomUser user : getRoom().getUserOnSquare(p)){
+					if(user.getRotation() != getRotation() && user.getPosition().equals(p)){
+						user.setRotation(getRotation());
+					}
+					if(user.getStatusses().containsKey("sit") && !getRoom().hasPosition(user.getPosition(), getAffectedTiles())){
+						user.getStatusses().remove("sit");
+					}
+					user.updateStatus();
+				}
+			}
 			getRoom().getGameMap().setWalkable(p.getX(), p.getY(), getRoom().getItemManager().canWalk(p.getX(), p.getY()));
 		}
 		oldAffectedTiles.clear();
 		oldAffectedTiles = null;
 		for(Point p : getAffectedTiles()){
+			
 			getRoom().getGameMap().setWalkable(p.getX(), p.getY(), getRoom().getItemManager().canWalk(p.getX(), p.getY()));
 		}
 		getRoom().sendComposer(new UpdateFurniStackMapMessageComposer(getAffectedTiles(), getRoom()));

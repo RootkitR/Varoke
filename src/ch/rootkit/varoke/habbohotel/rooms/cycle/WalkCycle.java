@@ -50,13 +50,16 @@ public class WalkCycle extends UserCycle{
 		roomUser.removeStatus("mv");
 		roomUser.removeStatus("sit");
 		roomUser.removeStatus("lay");
-		roomUser.addStatus("mv", nextStep.getX() + "," + nextStep.getY() + "," + getRoom().getItemManager().getHeight(nextStep.getX(),nextStep.getY()));
+		double height = getRoom().getItemManager().isSeat(new Point(nextStep.getX(), nextStep.getY())) ? 
+					getRoom().getItemManager().getZ(nextStep.getX(),nextStep.getY()) : 
+					getRoom().getItemManager().getHeight(nextStep.getX(),nextStep.getY());
+		roomUser.addStatus("mv", nextStep.getX() + "," + nextStep.getY() + "," + height);
 		roomUser.updateStatus();
 		if(!getRoom().getData().allowWalkthrough())
 			getRoom().getGameMap().setWalkable(roomUser.getPosition().getX(), roomUser.getPosition().getY(), true);
 		roomUser.setOldPosition(roomUser.getPosition());
 		roomUser.setPosition(new Point(nextStep.getX(), nextStep.getY()));
-		roomUser.setZ(getRoom().getItemManager().getHeight(nextStep.getX(), nextStep.getY()));
+		roomUser.setZ(height);
 		if(!getRoom().getData().allowWalkthrough())
 			getRoom().getGameMap().setWalkable(roomUser.getPosition().getX(), roomUser.getPosition().getY(), false);
 	}

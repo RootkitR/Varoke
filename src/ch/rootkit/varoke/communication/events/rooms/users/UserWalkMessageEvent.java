@@ -11,7 +11,8 @@ public class UserWalkMessageEvent implements MessageEvent {
 	@Override
 	public void handle(Session session, ClientMessage event) throws Exception {
 		RoomUser roomUser = session.getHabbo().getCurrentRoom().getRoomUserById(session.getHabbo().getId());
-		if(roomUser == null) return;
+		if(roomUser == null) 
+			return;
 		roomUser.setIdle(false);
 		roomUser.setGoal(new Point(event.readInt(), event.readInt()));
 		roomUser.setPathFinderCollection();
