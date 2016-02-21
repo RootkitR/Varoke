@@ -31,7 +31,9 @@ public class RoomItemManager {
 	public void addFloorItem(RoomItem item) throws Exception{
 		floorItems.put(item.getId(), item);
 		getRoom().sendComposer(new AddFloorItemMessageComposer(item));
-		getRoom().getGameMap().setWalkable(item.getX(), item.getY(), canWalk(item.getX(), item.getY()));
+		for(Point p : item.getAffectedTiles()){
+			getRoom().getGameMap().setWalkable(p.getX(), p.getY(), canWalk(p.getX(), p.getY()));
+		}
 		getRoom().sendComposer(new UpdateFurniStackMapMessageComposer(item.getAffectedTiles(), getRoom()));
 	}
 	
@@ -40,7 +42,9 @@ public class RoomItemManager {
 		getRoom().sendComposer(new PickUpFloorItemMessageComposer(item, picker));
 		this.floorItems.remove(itemId);
 		getRoom().sendComposer(new UpdateFurniStackMapMessageComposer(item.getAffectedTiles(), getRoom()));
-		getRoom().getGameMap().setWalkable(item.getX(), item.getY(), canWalk(item.getX(), item.getY()));
+		for(Point p : item.getAffectedTiles()){
+			getRoom().getGameMap().setWalkable(p.getX(), p.getY(), canWalk(p.getX(), p.getY()));
+		}
 	}
 	
 	public void addWallItem(RoomItem item) throws Exception{

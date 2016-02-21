@@ -174,6 +174,7 @@ public class RoomItem {
 		message.writeInt(getBaseItem().getInteractionsModes() > 1 ? 1 : 0);
 		message.writeInt(isBuildersFurni() ? -12345678 : getOwnerId());
 	}
+	
 	public void composeExtraData(ServerMessage message) throws Exception {
 		switch(getBaseItem().getInteractionType()){
 			case "present":
@@ -223,8 +224,11 @@ public class RoomItem {
 			}
 		}
 	}
+	
 	public void update() throws Exception {
-		getRoom().getGameMap().setWalkable(getX(), getY(), getRoom().getItemManager().canWalk(getX(), getY()));
+		for(Point p : getAffectedTiles()){
+			getRoom().getGameMap().setWalkable(p.getX(), p.getY(), getRoom().getItemManager().canWalk(p.getX(), p.getY()));
+		}
 		getRoom().updatePath();
 		if(isFloorItem())
 			getRoom().sendComposer(new UpdateRoomItemMessageComposer(this));
@@ -232,9 +236,11 @@ public class RoomItem {
 			getRoom().sendComposer(new UpdateRoomWallItemMessageComposer(this));
 		Varoke.getFactory().getItemFactory().saveItemState(this);
 	}
+	
 	public List<Point> getAffectedTiles() {
-		return AffectedTiles.getAffectedTiles(getBaseItem().getX(), getBaseItem().getY(), getX(), getY(), getRotation());
+		return AffectedTiles.getAffectedTiles(getBaseItem().getY(), getBaseItem().getX(), getX(), getY(), getRotation());
 	}
+	
 	public void move(int x, int y, int rotation) throws Exception{
 		boolean onlyRotation = x == getX() && y == getY();
 		if(!getRoom().getItemManager().canPlace(x, y) && !onlyRotation){
@@ -243,15 +249,20 @@ public class RoomItem {
 		}
 		if(!onlyRotation)
 			setZ(getRoom().getItemManager().getHeight(x, y));
-		int oldX = getX();
-		int oldY = getY();
+		List<Point> oldAffectedTiles = getAffectedTiles();
 		setX(x);
 		setY(y);
 		setRotation(rotation);
 		Varoke.getFactory().getItemFactory().saveItemState(this);
 		getRoom().sendComposer(new UpdateRoomItemMessageComposer(this));
-		getRoom().getGameMap().setWalkable(oldX, oldY, getRoom().getItemManager().canWalk(oldX, oldY));
-		getRoom().getGameMap().setWalkable(x, y, getRoom().getItemManager().canWalk(x,y));
+		for(Point p : oldAffectedTiles){
+			getRoom().getGameMap().setWalkable(p.getX(), p.getY(), getRoom().getItemManager().canWalk(p.getX(), p.getY()));
+		}
+		oldAffectedTiles.clear();
+		oldAffectedTiles = null;
+		for(Point p : getAffectedTiles()){
+			getRoom().getGameMap().setWalkable(p.getX(), p.getY(), getRoom().getItemManager().canWalk(p.getX(), p.getY()));
+		}
 		getRoom().sendComposer(new UpdateFurniStackMapMessageComposer(getAffectedTiles(), getRoom()));
 	}
 
