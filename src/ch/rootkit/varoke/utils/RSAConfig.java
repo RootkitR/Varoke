@@ -28,9 +28,14 @@ public class RSAConfig {
 	    }
 	}
 	
-	public static String get(String s){
-		if(rsa.containsKey(s))
-			return rsa.get(s);
+	/**
+	 * 
+	 * @param key The key which should be registered in CLIENTVERSION.rsa
+	 * @return Returns the value of the key (if not found it returns an empty String)
+	 */
+	public static String get(String key){
+		if(rsa.containsKey(key))
+			return rsa.get(key);
 		return "";
 	}
 }

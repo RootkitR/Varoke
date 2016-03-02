@@ -24,6 +24,7 @@ public class RoomCycle implements Runnable{
 		userCycles.add(new WalkCycle(room));
 		userCycles.add(new SignCycle(room));
 		userCycles.add(new OnWalkCycle(room));
+		userCycles.add(new TeleportCycle(room));
 	}
 	public Room getRoom(){ 
 		return room;
@@ -45,6 +46,7 @@ public class RoomCycle implements Runnable{
 				cycle.onCycle(roomItem);
 			}
 		}
+		
 	}
 	public String getError(int l){
 		switch(l)

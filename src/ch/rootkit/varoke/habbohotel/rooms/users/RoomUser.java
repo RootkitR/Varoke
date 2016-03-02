@@ -40,6 +40,7 @@ public class RoomUser {
 		carryId = 0;
 		danceId = 0;
 		pathFinder = new PathFinder(r, this);
+		signTimer = -1;
 	}
 	
 	public int getVirtualId(){
@@ -110,9 +111,11 @@ public class RoomUser {
 			e.printStackTrace();
 		}
 	}
-	
 	public void setPathFinderCollection(){
-		if(getRoom().getGameMap().isWalkable(this.getGoal().getX(), this.getGoal().getY()) || getRoom().getItemManager().isSeat(this.getGoal()))
+		setPathFinderCollection(false);
+	}
+	public void setPathFinderCollection(boolean isTeleport){
+		if(getRoom().getGameMap().isWalkable(this.getGoal().getX(), this.getGoal().getY()) || getRoom().getItemManager().isSeat(this.getGoal()) || isTeleport)
 			this.getPathfinder().findPath();
 	}
 	

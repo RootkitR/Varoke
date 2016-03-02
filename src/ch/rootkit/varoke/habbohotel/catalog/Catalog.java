@@ -101,9 +101,13 @@ public class Catalog {
 		session.getHabbo().giveDuckets(0 - (priceAmount * item.getCostDuckets()));
 		session.sendComposer(new PurchaseOKMessageComposer(session, item));
 		for(int i = 0; i < itemAmount; i++){
-			@SuppressWarnings("unused")
 			InventoryItem invItem = session.getHabbo().getInventory().createItem(session.getHabbo().getId(),
 					item.getBaseItem().getId(), extraData, item.getLimitedSells(), 0, false);//TODO group, builders club
+			if(invItem.getBaseItem().getInteractionType().equals("teleport")){
+				InventoryItem teleporter2 = session.getHabbo().getInventory().createItem(session.getHabbo().getId(),
+						item.getBaseItem().getId(), extraData, item.getLimitedSells(), 0, false);
+				Varoke.getFactory().getInventoryFactory().createTeleporter(invItem.getId(), teleporter2.getId());
+			}
 		}
 		if(item.getBadge() != "")
 			session.getHabbo().getBadgeComponent().addBadge(item.getBadge());

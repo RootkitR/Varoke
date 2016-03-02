@@ -13,6 +13,10 @@ public class InteractorFactory {
 			return new GateInteractor(roomItem);
 		case "vendingmachine":
 			return new VendorInteractor(roomItem);
+		case "dice":
+			return new DiceInteractor(roomItem);
+		case "teleport":
+			return new TeleporterInteractor(roomItem);
 		default:
 			return new DefaultInteractor(roomItem);
 		}

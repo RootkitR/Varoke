@@ -40,9 +40,15 @@ public class Incoming {
 	      System.out.println(e);
 	    }
 	}
-	public static short get(String s){
-		if(incoming.containsKey(s))
-			return incoming.get(s);
+	
+	/**
+	 * 
+	 * @param key The key which should be registered in CLIENTVERSION.incoming
+	 * @return Returns the value of the key as an short (If the key was not found it returns a 0)
+	 */
+	public static short get(String key){
+		if(incoming.containsKey(key))
+			return incoming.get(key);
 		return 0;
 	}
 }

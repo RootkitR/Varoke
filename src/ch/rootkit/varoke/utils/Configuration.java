@@ -23,7 +23,11 @@ public class Configuration {
 			}
 		}
 	}
-	
+	/**
+	 * 
+	 * @param key The key which should be registered in configuration.varoke.
+	 * @return Returns the value of the key (if not found it returns "Key not found!"
+	 */
 	public static String get(String key){
 		if(configurations.containsKey(key))
 			return configurations.get(key);

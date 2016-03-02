@@ -40,6 +40,12 @@ public class Outgoing {
 	      System.out.println(e);
 	    }
 	}
+	
+	/**
+	 * 
+	 * @param key The key which should be registered in CLIENTVERSION.outgoing
+	 * @return Returns the value of the key as an short (If the key was not found it returns a 0)
+	 */
 	public static short get(String s){
 		if(outgoing.containsKey(s))
 			return outgoing.get(s);

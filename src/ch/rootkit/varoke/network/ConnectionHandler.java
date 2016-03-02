@@ -46,14 +46,14 @@ public class ConnectionHandler extends ChannelInboundHandlerAdapter{
 	public void readMessage(ChannelHandlerContext ctx, ByteBuf buffer) throws Exception {
 		short Header = buffer.readShort();
 		if(Varoke.getGame().getPacketManager().hasEvent(Header)){
-			Logger.printIncomingLine(Header, true, getCharFilter(buffer), Varoke.getGame().getPacketManager().get(Header).getClass().getSimpleName());
+			Logger.printIncomingLine(Header, getCharFilter(buffer), Varoke.getGame().getPacketManager().get(Header).getClass().getSimpleName());
 			if(!Varoke.getGame().getPacketManager().isHandshake(Header) && !Varoke.getSessionManager().getSessionByChannel(ctx.channel()).passedHandshake()){
 				Logger.printWarningLine("User sent Non-Handshake Event without even passing the Handshake!");
 				return;
 			}
 			Varoke.getGame().getPacketManager().get(Header).handle(getConnection(), new ClientMessage(Header, buffer));
 		}else{
-			Logger.printIncomingLine(Header, false, getCharFilter(buffer), "NULL");
+			Logger.printIncomingLine(Header, getCharFilter(buffer), "NULL");
 		}
 	}
 	

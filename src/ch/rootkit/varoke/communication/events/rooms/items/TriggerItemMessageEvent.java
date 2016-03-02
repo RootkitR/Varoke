@@ -9,7 +9,7 @@ public class TriggerItemMessageEvent implements MessageEvent {
 	@Override
 	public void handle(Session session, ClientMessage event) throws Exception {
 		int itemId = event.readInt();
-		if(session.getHabbo().getCurrentRoom() == null && session.getHabbo().getCurrentRoom().getItemManager().getItem(itemId) == null)
+		if(session.getHabbo().getCurrentRoom() == null || session.getHabbo().getCurrentRoom().getItemManager().getItem(itemId) == null || session.getHabbo().getCurrentRoom().getRoomUserById(session.getHabbo().getId()) == null)
 			return;
 		RoomItem item = session.getHabbo().getCurrentRoom().getItemManager().getItem(itemId);
 		item.getInteractor().onTrigger(

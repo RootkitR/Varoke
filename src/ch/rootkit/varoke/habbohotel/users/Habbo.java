@@ -14,6 +14,7 @@ import ch.rootkit.varoke.habbohotel.messenger.Messenger;
 import ch.rootkit.varoke.habbohotel.navigator.NavigatorSearch;
 import ch.rootkit.varoke.habbohotel.relationships.Relationship;
 import ch.rootkit.varoke.habbohotel.rooms.Room;
+import ch.rootkit.varoke.habbohotel.rooms.items.RoomItem;
 import ch.rootkit.varoke.habbohotel.sessions.Session;
 import ch.rootkit.varoke.habbohotel.users.badges.BadgeComponent;
 import ch.rootkit.varoke.habbohotel.users.inventory.Inventory;
@@ -46,6 +47,8 @@ public class Habbo {
 	private BadgeComponent badges;
 	private Wardrobe wardrobe;
 	private Inventory inventory;
+	private RoomItem teleportItem;
+	private int teleportStep;
 	
 	public Habbo(int id, String username, String mail, int rank, String look, String gender, String motto, int credits, int duckets, int diamonds, long created, Preferences p, List<NavigatorSearch> s, List<Integer> favs, int home, Messenger m, List<Relationship> relations, BadgeComponent b, Wardrobe w, HashMap<Integer, InventoryItem> items)
 	{
@@ -72,6 +75,7 @@ public class Habbo {
 		badges = b;
 		wardrobe = w;
 		inventory = new Inventory(this, items);
+		teleportStep = 0;
 	}
 	
 	public int getId(){ 
@@ -287,5 +291,21 @@ public class Habbo {
 		this.Diamonds += diamonds;
 		Varoke.getFactory().getUserFactory().updateValue(getId(), "diamonds", this.Diamonds);
 		getSession().sendComposer(new ActivityPointsNotificationMessageComposer(this.Diamonds,diamonds, 5));
+	}
+	
+	public RoomItem getTeleportItem() {
+		return teleportItem;
+	}
+
+	public void setTeleportItem(RoomItem teleportItem) {
+		this.teleportItem = teleportItem;
+	}
+
+	public int getTeleportStep(){
+		return this.teleportStep;
+	}
+	
+	public void setTeleportStep(int i) {
+		this.teleportStep = i;
 	}
 }

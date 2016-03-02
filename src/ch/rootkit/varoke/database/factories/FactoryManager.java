@@ -17,6 +17,7 @@ public class FactoryManager {
 	private CatalogFactory catalogFactory;
 	private ItemFactory itemFactory;
 	private InventoryFactory inventoryFactory;
+	
 	public FactoryManager(){
 		userFactory = new UserFactory();
 		navigatorFactory = new NavigatorFactory();
@@ -30,39 +31,51 @@ public class FactoryManager {
 		itemFactory = new ItemFactory();
 		inventoryFactory = new InventoryFactory();
 	}
+	
 	public UserFactory getUserFactory(){
 		return userFactory;
 	}
+	
 	public NavigatorFactory getNavigatorFactory(){
 		return navigatorFactory;
 	}
+	
 	public RoomFactory getRoomFactory(){
 		return roomFactory;
 	}
+	
 	public MessengerFactory getMessengerFactory(){
 		return messengerFactory;
 	}
+	
 	public VarokeFactory getVarokeFactory(){
 		return varokeFactory;
 	}
+	
 	public RelationshipFactory getRelationshipFactory(){
 		return relationshipFactory;
 	}
+	
 	public BadgeFactory getBadgeFactory(){
 		return badgeFactory;
 	}
+	
 	public WardrobeFactory getWardrobeFactory(){
 		return wardrobeFactory;
 	}
+	
 	public CatalogFactory getCatalogFactory(){
 		return catalogFactory;
 	}
+	
 	public ItemFactory getItemFactory(){
 		return itemFactory;
 	}
+	
 	public InventoryFactory getInventoryFactory(){
 		return inventoryFactory;
 	}
+	
 	public void dispose(Connection cn, PreparedStatement ps, ResultSet rs) throws Exception{
 		if(cn != null)
 			cn.close();

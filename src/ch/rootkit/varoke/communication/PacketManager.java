@@ -60,6 +60,8 @@ import ch.rootkit.varoke.communication.events.rooms.items.OpenGiftMessageEvent;
 import ch.rootkit.varoke.communication.events.rooms.items.PickUpItemMessageEvent;
 import ch.rootkit.varoke.communication.events.rooms.items.ReedemExchangeItemMessageEvent;
 import ch.rootkit.varoke.communication.events.rooms.items.RoomAddFloorItemMessageEvent;
+import ch.rootkit.varoke.communication.events.rooms.items.TriggerDiceCloseMessageEvent;
+import ch.rootkit.varoke.communication.events.rooms.items.TriggerDiceRollMessageEvent;
 import ch.rootkit.varoke.communication.events.rooms.items.TriggerItemMessageEvent;
 import ch.rootkit.varoke.communication.events.rooms.items.TriggerWallItemMessageEvent;
 import ch.rootkit.varoke.communication.events.rooms.items.WallItemMoveMessageEvent;
@@ -81,10 +83,12 @@ public class PacketManager {
 
 	private HashMap<Short, MessageEvent> events;
 	private List<Short> handshakeEvents;
+	
 	public PacketManager() {
 		events = new HashMap<Short, MessageEvent>();
 		handshakeEvents = new ArrayList<Short>();
 	}
+	
 	public void bindHandshake(){
 		events.put(Incoming.get("CheckReleaseMessageEvent"), new CheckReleaseMessageEvent());
 		events.put(Incoming.get("InitCryptoMessageEvent"), new InitCryptoMessageEvent());
@@ -94,18 +98,21 @@ public class PacketManager {
 			handshakeEvents.add(e.getKey());
 		}
 	}
+	
 	public void bindUsers(){
 		events.put(Incoming.get("InfoRetrieveMessageEvent"), new InfoRetrieveMessageEvent());
 		events.put(Incoming.get("LoadUserProfileMessageEvent"), new LoadUserProfileMessageEvent());
 		events.put(Incoming.get("UserUpdateLookMessageEvent"), new UserUpdateLookMessageEvent());
 		events.put(Incoming.get("UserUpdateMottoMessageEvent"), new UserUpdateMottoMessageEvent());
 	}
+	
 	public void bindLadingView(){
 		events.put(Incoming.get("LandingLoadWidgetMessageEvent"), new LandingLoadWidgetMessageEvent());
 		events.put(Incoming.get("GetHotelViewHallOfFameMessageEvent"), new GetHotelViewHallOfFameMessageEvent());
 		events.put(Incoming.get("LandingRefreshPromosMessageEvent"), new LandingRefreshPromosMessageEvent());
 		events.put(Incoming.get("GoToHotelViewMessageEvent"), new GoToHotelViewMessageEvent());
 	}
+	
 	public void bindNavigator(){
 		events.put(Incoming.get("NewNavigatorMessageEvent"), new NewNavigatorMessageEvent());
 		events.put(Incoming.get("SearchNewNavigatorEvent"), new SearchNewNavigatorEvent());
@@ -120,6 +127,7 @@ public class PacketManager {
 		events.put(Incoming.get("RemoveFavouriteRoomMessageEvent"), new RemoveFavouriteRoomMessageEvent());
 		events.put(Incoming.get("SetHomeRoomMessageEvent"), new SetHomeRoomMessageEvent());
 	}
+	
 	public void bindRoom(){
 		events.put(Incoming.get("RoomGetInfoMessageEvent"), new RoomGetInfoMessageEvent());
 		events.put(Incoming.get("EnterPrivateRoomMessageEvent"), new EnterPrivateRoomMessageEvent());
@@ -129,6 +137,7 @@ public class PacketManager {
 		events.put(Incoming.get("SaveRoomThumbnailMessageEvent"), new SaveRoomThumbnailMessageEvent());
 		events.put(Incoming.get("RateRoomMessageEvent"), new RateRoomMessageEvent());
 	}
+	
 	public void bindRoomUser(){
 		events.put(Incoming.get("ShoutMessageEvent"), new TalkMessageEvent());
 		events.put(Incoming.get("ChatMessageEvent"), new TalkMessageEvent());
@@ -138,6 +147,7 @@ public class PacketManager {
 		events.put(Incoming.get("UserDanceMessageEvent"), new UserDanceMessageEvent());
 		events.put(Incoming.get("UserSignMessageEvent"), new UserSignMessageEvent());
 	}
+	
 	public void bindRoomItems(){
 		events.put(Incoming.get("RoomAddFloorItemMessageEvent"), new RoomAddFloorItemMessageEvent());
 		events.put(Incoming.get("FloorItemMoveMessageEvent"), new FloorItemMoveMessageEvent());
@@ -147,7 +157,10 @@ public class PacketManager {
 		events.put(Incoming.get("WallItemMoveMessageEvent"), new WallItemMoveMessageEvent());
 		events.put(Incoming.get("TriggerWallItemMessageEvent"), new TriggerWallItemMessageEvent());
 		events.put(Incoming.get("ReedemExchangeItemMessageEvent"), new ReedemExchangeItemMessageEvent());
+		events.put(Incoming.get("TriggerDiceRollMessageEvent"), new TriggerDiceRollMessageEvent());
+		events.put(Incoming.get("TriggerDiceCloseMessageEvent"), new TriggerDiceCloseMessageEvent());
 	}
+	
 	public void bindMessenger(){
 		events.put(Incoming.get("InitMessengerMessageEvent"), new InitMessengerMessageEvent());
 		events.put(Incoming.get("AcceptFriendMessageEvent"), new AcceptFriendMessageEvent());
@@ -159,19 +172,23 @@ public class PacketManager {
 		events.put(Incoming.get("RequestFriendMessageEvent"), new RequestFriendMessageEvent());
 		events.put(Incoming.get("ConsoleSearchFriendsMessageEvent"), new ConsoleSearchFriendsMessageEvent());
 	}
+	
 	public void bindRelationships(){
 		events.put(Incoming.get("SetRelationshipMessageEvent"), new SetRelationshipMessageEvent());
 		events.put(Incoming.get("GetRelationshipsMessageEvent"), new GetRelationshipsMessageEvent());
 	}
+	
 	public void bindBadgeInventory(){
 		events.put(Incoming.get("LoadBadgeInventoryMessageEvent"), new LoadBadgeInventoryMessageEvent());
 		events.put(Incoming.get("SetActivatedBadgesMessageEvent"), new SetActivatedBadgesMessageEvent());
 		events.put(Incoming.get("GetUserBadgesMessageEvent"), new GetUserBadgesMessageEvent());
 	}
+	
 	public void bindWardrobe(){
 		events.put(Incoming.get("WardrobeMessageEvent"), new WardrobeMessageEvent());
 		events.put(Incoming.get("WardrobeUpdateMessageEvent"), new WardrobeUpdateMessageEvent());
 	}
+	
 	public void bindCatalog(){
 		events.put(Incoming.get("GetCatalogIndexMessageEvent"), new GetCatalogIndexMessageEvent());
 		events.put(Incoming.get("GetCatalogPageMessageEvent"), new GetCatalogPageMessageEvent());
@@ -182,15 +199,34 @@ public class PacketManager {
 //		Voucher
 		events.put(Incoming.get("RedeemVoucherMessageEvent"), new RedeemVoucherMessageEvent());
 	}
+	
 	public void bindInventory(){
 		events.put(Incoming.get("LoadItemsInventoryMessageEvent"), new LoadItemsInventoryMessageEvent());
 	}
+	
+	/**
+	 * 
+	 * @param id the incoming message id
+	 * @return the message event
+	 */
 	public MessageEvent get(short id){
 		return events.get(id);
 	}
+	
+	/**
+	 * 
+	 * @param id the incoming message id
+	 * @return if the message event is registered
+	 */
 	public boolean hasEvent(short id){
 		return events.containsKey(id);
 	}
+	
+	/**
+	 * 
+	 * @param id the incoming message id
+	 * @return If the id is a handshake message
+	 */
 	public boolean isHandshake(short id){
 		return handshakeEvents.contains(id);
 	}

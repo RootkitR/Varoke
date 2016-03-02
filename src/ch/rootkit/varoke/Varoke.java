@@ -2,7 +2,6 @@ package ch.rootkit.varoke;
 
 import java.util.Date;
 
-import ch.rootkit.varoke.api.WebServer;
 import ch.rootkit.varoke.database.Database;
 import ch.rootkit.varoke.database.factories.FactoryManager;
 import ch.rootkit.varoke.habbohotel.Game;
@@ -12,6 +11,7 @@ import ch.rootkit.varoke.network.crypto.RSA;
 import ch.rootkit.varoke.utils.Configuration;
 import ch.rootkit.varoke.utils.Logger;
 import ch.rootkit.varoke.utils.RSAConfig;
+import ch.rootkit.varoke.web.WebServer;
 
 public class Varoke {
 	

@@ -39,8 +39,15 @@ import ch.rootkit.varoke.habbohotel.catalog.pages.VIPPage;
 import ch.rootkit.varoke.habbohotel.users.Habbo;
 
 public class CatalogFactory {
+	
 	public CatalogFactory(){
 	}
+	
+	/**
+	 * reads all Catalog Pages from the database
+	 * @return HashMap with page Id and the CatalogPage Instance
+	 * @throws Exception
+	 */
 	public HashMap<Integer, CatalogPage> readPages() throws Exception{
 		HashMap<Integer, CatalogPage> result = new HashMap<Integer, CatalogPage>();
 		Connection cn = Varoke.getDatabase().getConnection();
@@ -75,6 +82,13 @@ public class CatalogFactory {
 		Varoke.getFactory().dispose(cn, ps, rs);
 		return result;
 	}
+	
+	/**
+	 * reads all Items of a catalog page form database
+	 * @param pageId Id from the Catalog Page
+	 * @return A List with all Items
+	 * @throws Exception
+	 */
 	public List<CatalogItem> readItems(int pageId) throws Exception{
 		List<CatalogItem> result = new ArrayList<CatalogItem>();
 		Connection cn = Varoke.getDatabase().getConnection();
@@ -107,6 +121,14 @@ public class CatalogFactory {
 		Varoke.getFactory().dispose(cn, ps, rs);
 		return result;
 	}
+	
+	/**
+	 * Checks the Voucher Code and redeems it.
+	 * @param code voucher code
+	 * @param user redeemer
+	 * @return if the voucher was successfully redeemed or not
+	 * @throws Exception
+	 */
 	public boolean checkVoucher(String code, Habbo user) throws Exception {
 		Connection cn = Varoke.getDatabase().getConnection();
 		PreparedStatement ps = cn.prepareStatement("SELECT * FROM vouchers WHERE code = ?");
@@ -127,6 +149,12 @@ public class CatalogFactory {
 		ps2 = null;
 		return result;
 	}
+	
+	/**
+	 * 
+	 * @param page the catalog page
+	 * @return page (for serializing) using the Layout
+	 */
 	public Page getPageLayout(CatalogPage page) {
 		switch(page.getLayout()){
 		case "frontpage":
