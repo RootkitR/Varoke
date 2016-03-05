@@ -39,14 +39,15 @@ public class TeleporterInteractor extends Interactor {
 	}
 	
 	private boolean canTeleport(RoomUser user) throws Exception{
-	     if (user.getClient().getHabbo().getTeleportItem() != null){
-	    	 System.out.println("still using teleporter");
-	            return false;
-	     }
-	     if (!(getItem().getExtraData().equals("0") || getItem().getExtraData().isEmpty())){
-	    	 System.out.println("extradata not null");
-	            return false;
-	     }
+		if (user.getClient().getHabbo().getTeleportItem() != null){
+	    	 return false;
+		}
+		if (!(getItem().getExtraData().equals("0") || getItem().getExtraData().isEmpty())){
+	    	 return false;
+		}
+		if(!user.getPosition().equals(getItem().inFront())){
+	    	 return false;
+		}
 		return true;
 	}
 }

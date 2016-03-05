@@ -49,9 +49,9 @@ public class Habbo {
 	private Inventory inventory;
 	private RoomItem teleportItem;
 	private int teleportStep;
+	private String sso;
 	
-	public Habbo(int id, String username, String mail, int rank, String look, String gender, String motto, int credits, int duckets, int diamonds, long created, Preferences p, List<NavigatorSearch> s, List<Integer> favs, int home, Messenger m, List<Relationship> relations, BadgeComponent b, Wardrobe w, HashMap<Integer, InventoryItem> items)
-	{
+	public Habbo(int id, String username, String mail, int rank, String look, String gender, String motto, int credits, int duckets, int diamonds, long created, Preferences p, List<NavigatorSearch> s, List<Integer> favs, int home, Messenger m, List<Relationship> relations, BadgeComponent b, Wardrobe w, HashMap<Integer, InventoryItem> items, String ssoTicket){
 		Id = id;
 		Username = username;
 		Mail = mail;
@@ -76,6 +76,7 @@ public class Habbo {
 		wardrobe = w;
 		inventory = new Inventory(this, items);
 		teleportStep = 0;
+		sso = ssoTicket;
 	}
 	
 	public int getId(){ 
@@ -307,5 +308,9 @@ public class Habbo {
 	
 	public void setTeleportStep(int i) {
 		this.teleportStep = i;
+	}
+	
+	public String getSSO(){
+		return sso;
 	}
 }

@@ -12,9 +12,11 @@ import ch.rootkit.varoke.habbohotel.users.Habbo;
 import ch.rootkit.varoke.habbohotel.users.Preferences;
 
 public class UserFactory {
+	
 	public UserFactory(){
 		
 	}
+	
 	public Habbo createHabbo(String sso) throws Exception{
 		Habbo result = null;
 		Connection cn = Varoke.getDatabase().getConnection();
@@ -42,20 +44,24 @@ public class UserFactory {
 					Varoke.getFactory().getRelationshipFactory().readRelationships(rs.getInt("id")),
 					Varoke.getFactory().getBadgeFactory().buildBadgeComponent(rs.getInt("id")),
 					Varoke.getFactory().getWardrobeFactory().buildWardrobe(rs.getInt("id")),
-					Varoke.getFactory().getInventoryFactory().readInventory(rs.getInt("id"))
+					Varoke.getFactory().getInventoryFactory().readInventory(rs.getInt("id")),
+					sso
 					);
 		}
 		Varoke.getFactory().dispose(cn, ps, rs);
 		return result;
 	}
+	
 	public Habbo getHabbo(int userId) throws Exception{
 		if(Varoke.getSessionManager().getSessionByUserId(userId) != null)
 			return Varoke.getSessionManager().getSessionByUserId(userId).getHabbo();
 		return createHabbo((String)getValueFromUser("sso", userId));
 	}
+	
 	public void saveHabbo(Habbo habbo){
 		//TODO SAVE HABBO
 	}
+	
 	public void updateValue(int userId, String key, Object Value) throws Exception{
 		Connection cn = Varoke.getDatabase().getConnection();
 		PreparedStatement ps = cn.prepareStatement("UPDATE users SET " + key + "=? WHERE id=?");
@@ -64,6 +70,7 @@ public class UserFactory {
 		ps.execute();
 		Varoke.getFactory().dispose(cn, ps, null);
 	}
+	
 	public Object getValueFromUser(String key, int Id)throws Exception{
 		Object result = null;
 		Connection cn = Varoke.getDatabase().getConnection();
@@ -75,6 +82,7 @@ public class UserFactory {
 		Varoke.getFactory().dispose(cn, ps, rs);
 		return result;
 	}
+
 	public int getIdFromUser(String username) throws Exception{
 		int id = 0;
 		Connection cn = Varoke.getDatabase().getConnection();
@@ -86,6 +94,7 @@ public class UserFactory {
 		Varoke.getFactory().dispose(cn, ps, rs);
 		return id;
 	}
+	
 	public HashMap<Integer, List<String>> readPermissions()throws Exception{
 		HashMap<Integer, List<String>> result = new HashMap<Integer, List<String>>();
 		Connection cn = Varoke.getDatabase().getConnection();
@@ -99,6 +108,7 @@ public class UserFactory {
 		Varoke.getFactory().dispose(cn, ps, rs);
 		return result;
 	}
+	
 	public Preferences readPreferences(int userId) throws Exception{
 		Preferences result = null;
 		Connection cn = Varoke.getDatabase().getConnection();
@@ -119,6 +129,7 @@ public class UserFactory {
 		Varoke.getFactory().dispose(cn, ps, rs);
 		return result;
 	}
+	
 	public void savePreferences(Preferences pref) throws Exception{
 		Connection cn = Varoke.getDatabase().getConnection();
 		PreparedStatement ps = cn.prepareStatement("DELETE FROM user_preferences WHERE userId=?");
@@ -135,6 +146,7 @@ public class UserFactory {
 		ps.execute();
 		Varoke.getFactory().dispose(cn, ps, null);
 	}
+	
 	public List<Integer> readFavorites(int userId) throws Exception{
 		List<Integer> result = new ArrayList<Integer>();
 		Connection cn = Varoke.getDatabase().getConnection();
@@ -147,6 +159,7 @@ public class UserFactory {
 		Varoke.getFactory().dispose(cn, ps, null);
 		return result;
 	}
+	
 	public void addFavorite(int userId, int roomId) throws Exception{
 		Connection cn = Varoke.getDatabase().getConnection();
 		PreparedStatement ps = cn.prepareStatement("INSERT INTO user_favorites (userId, roomId) VALUES (?,?)");
@@ -155,6 +168,7 @@ public class UserFactory {
 		ps.execute();
 		Varoke.getFactory().dispose(cn, ps, null);
 	}
+	
 	public void removeFavorite(int userId, int roomId) throws Exception{
 		Connection cn = Varoke.getDatabase().getConnection();
 		PreparedStatement ps = cn.prepareStatement("DELETE FROM user_favorites WHERE userId=? AND roomId=?");
@@ -163,6 +177,7 @@ public class UserFactory {
 		ps.execute();
 		Varoke.getFactory().dispose(cn, ps, null);
 	}
+	
 	public void saveObject(int userId, String key, Object value) throws Exception{
 		Connection cn = Varoke.getDatabase().getConnection();
 		PreparedStatement ps = cn.prepareStatement("UPDATE users SET " + key + "=? WHERE id=?");
@@ -171,12 +186,60 @@ public class UserFactory {
 		ps.execute();
 		Varoke.getFactory().dispose(cn, ps, null);
 	}
+	
 	public boolean userExists(String username) throws Exception {
 		Connection cn = Varoke.getDatabase().getConnection();
 		PreparedStatement ps = cn.prepareStatement("SELECT id FROM users WHERE username=?");
 		ps.setString(1, username);
 		ResultSet rs = ps.executeQuery();
 		boolean result = rs.next();
+		Varoke.getFactory().dispose(cn, ps, rs);
+		return result;
+	}
+	
+	public boolean canLogin(String username, String password) throws Exception{
+		Connection cn = Varoke.getDatabase().getConnection();
+		PreparedStatement ps = cn.prepareStatement("SELECT id FROM users WHERE username=? AND password=?");
+		ps.setString(1, username);
+		ps.setString(2, password);
+		ResultSet rs = ps.executeQuery();
+		boolean result = rs.next();
+		Varoke.getFactory().dispose(cn, ps, rs);
+		return result;
+	}
+
+	public int getUserWhere(String key, String value) throws Exception{
+		Connection cn;
+			cn = Varoke.getDatabase().getConnection();
+		PreparedStatement ps = cn.prepareStatement("SELECT id FROM users WHERE " + key + "=?");
+		ps.setString(1, value);
+		ResultSet rs = ps.executeQuery();
+		int result = 0;
+		if(rs.next()){
+			result = rs.getInt("id");
+		}
+		Varoke.getFactory().dispose(cn, ps, rs);
+		return result;
+	}
+
+	public int register(String username, String password, String mail) throws Exception{
+		Connection cn;
+		cn = Varoke.getDatabase().getConnection();
+		PreparedStatement ps = cn.prepareStatement("INSERT INTO users (username, password, mail, sso, account_created) VALUES (?,?,?,?,?)");
+		ps.setString(1, username);
+		ps.setString(2, password);
+		ps.setString(3, mail);
+		ps.setString(4, Varoke.getWeb().createSSO(username));
+		ps.setLong(5, Varoke.getCurrentTimestamp());
+		ps.execute();
+		int result = 0;
+		ps.close();
+		ps = cn.prepareStatement("SELECT id FROM users WHERE username=?");
+		ps.setString(1, username);
+		ResultSet rs = ps.executeQuery();
+		if(rs.next()){
+			result = rs.getInt("id");
+		}
 		Varoke.getFactory().dispose(cn, ps, rs);
 		return result;
 	}

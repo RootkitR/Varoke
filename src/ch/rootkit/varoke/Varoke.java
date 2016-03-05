@@ -1,5 +1,6 @@
 package ch.rootkit.varoke;
 
+import java.nio.charset.Charset;
 import java.util.Date;
 
 import ch.rootkit.varoke.database.Database;
@@ -23,7 +24,8 @@ public class Varoke {
 	private static Game game;
 	private static RSA rsa;
 	private static FactoryManager factoryManager;
-	
+	private static WebServer webServer;
+	private static final Charset defaultCharset = Charset.forName("ISO-8859-1");
 	public static void initialize() throws Exception{
 		serverStarted = new Date().getTime();
 		System.out.println("Varoke Emulator by Rootkit [" + Version + "]");
@@ -38,7 +40,8 @@ public class Varoke {
 		rsa.init();
 		sessionManager = new SessionManager();
 		ConnectionListener.startBootstrap();
-		WebServer.start();
+		webServer = new WebServer();
+		webServer.start();
 		serverReady = new Date().getTime();
 		Logger.printVarokeLine("Ready (" + (serverReady - serverStarted) + "ms)");
 	}
@@ -83,5 +86,13 @@ public class Varoke {
 	
 	public static String getCurrentRamPercentage(){
 		return ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 0x100000) + "MB von " + Runtime.getRuntime().freeMemory() / 0x100000 + "MB";
+	}
+	
+	public static WebServer getWeb(){
+		return webServer;
+	}
+
+	public static Charset getCharset(){
+		return defaultCharset;
 	}
 }
