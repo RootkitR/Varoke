@@ -30,6 +30,9 @@ public class UserUpdateLookMessageEvent implements MessageEvent {
 			session.getHabbo().getCurrentRoom().sendComposer(new UpdateUserDataMessageComposer(
 					session.getHabbo().getCurrentRoom().getRoomUserById(
 							session.getHabbo().getId())));
+		}else{
+			session.getHabbo().sendComposer(new UpdateUserDataMessageComposer(
+					session.getHabbo().getCurrentRoom().getRoomUserById(-1));
 		}
 		session.getHabbo().getMessenger().updateMyself();
 	}
